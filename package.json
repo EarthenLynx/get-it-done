@@ -1,0 +1,11 @@
+{
+  "name": "express-boilerplate",
+  "version": "1.0.0",
+  "description": "Quick boilerplating for a REST Api with express.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
