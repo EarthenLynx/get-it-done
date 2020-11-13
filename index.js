@@ -9,6 +9,7 @@ const swaggerUi = require('swagger-ui-express');
 
 // Initialize the routes
 const todoRoute = require("./routes/todo");
+const userRoute = require("./routes/user");
 
 // Initialize app and configs
 const app = express();
@@ -16,6 +17,7 @@ require('dotenv').config();
 
 // Initialize the routes
 app.use("/todo", todoRoute);
+app.use("/user", userRoute);
 
 // Initialize costum modules
 const swaggerOptions = require("./config/swagger");

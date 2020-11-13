@@ -1,26 +1,30 @@
+const host = process.env.HOST;
+
 module.exports = {
   definition: {
     openapi: "3.0.0",
     info: {
       title: "Express API Swagger boilerplate",
-      version: "0.0.0",
+      version: "1.2.3",
       description:
-        "This is a ",
+        "This is a boilerplate to document openapi interfaces. Please refrain to the MD file in the ",
       license: {
         name: "MIT",
         url: "https://spdx.org/licenses/MIT.html",
       },
+      termsOfService: `${host}/terms`,
       contact: {
-        name: "LogRocket",
-        url: "https://logrocket.com",
-        email: "info@email.com",
+        name: "API Admin",
+        url: `${host}`,
+        email: "info@openapi.com",
       },
     },
+    host: `${host}`,
     servers: [
       {
-        url: "http://localhost:3000/todo",
-      },
+        url: `${host}`,
+      }
     ],
   },
-  apis: ["./routes/todo.js"],
+  apis: ["./routes/todo.js", "./routes/user.js"],
 };
