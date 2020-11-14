@@ -15,21 +15,21 @@ const userRoute = require("./routes/user");
 const app = express();
 require('dotenv').config();
 
-// Initialize the routes
-app.use("/todo", todoRoute);
-app.use("/user", userRoute);
-
 // Initialize costum modules
 const swaggerOptions = require("./config/swagger");
+const specs = swaggerJsdoc(swaggerOptions);
 
 // Initialize the middleware
-const specs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(morgan('dev'));
+
+// Initialize the routes
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/todo", todoRoute);
+app.use("/user", userRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`App listening on ${process.env.HOST}:${process.env.PORT}`)
