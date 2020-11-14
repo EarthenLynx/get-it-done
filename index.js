@@ -26,10 +26,10 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
 // Initialize the routes
-app.use("/api-docs/v1", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/v1/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/user", userRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`App listening on ${process.env.HOST}:${process.env.PORT}`)
-  console.log(`Api documentation running on ${process.env.HOST}:${process.env.PORT}${process.env.PATH_DOCS}`)
+  console.log(`Api documentation running on ${process.env.HOST}:${process.env.PORT}${process.env.API_VERSION}${process.env.PATH_DOCS}`)
 })
