@@ -1,6 +1,22 @@
 {
   "users": [
-    {}
+    {},
+    {
+      "id": "84f37dc7-3e33-4369-a086-450ff0477328",
+      "username": "string",
+      "city": "string",
+      "street": "string",
+      "housenum": "string",
+      "createdAt": "2020-11-14T11:51:48.402Z"
+    },
+    {
+      "id": "ecba67a6-473b-438d-b11a-34fbae33c99c",
+      "username": "string",
+      "city": "string",
+      "street": "string",
+      "housenum": "string",
+      "createdAt": "2020-11-14T11:52:46.978Z"
+    }
   ],
   "todos": [
     {}

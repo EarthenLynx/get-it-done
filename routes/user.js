@@ -28,26 +28,21 @@
  *           createdAt:
  *             type: string
  *             format: date
- *             description: The date of the record creation.
- *           example:
- *             username: John Doe
- *             city: Chicago
- *             street: 5th Av.
- *             housenum: 25
- *             createdAt: 2020-08-01T13:12:44
+ *             description: The date of the record creation. Will be automatially added when user is created
  */
 
 /**
  * @swagger
  *   tags:
  *     name: Users
- *     description: API to return the users
+ *     description: API endpoint to handle user data
  */
 
 
 
 
 const router = require("express").Router();
+const { handleWriteUser, handleGetUsers, handleGetUserById } = require("../controller/user.controller");
 
 /**
  * @swagger
@@ -55,18 +50,40 @@ const router = require("express").Router();
  *     get:
  *       summary: Returns a list of all users
  *       tags: [Users]
+ *       consumes:
+ *        - application/json
  *       produces:
  *        - application/json
  *       responses:
  *         200:
- *           description: todos
+ *           description: Returns the users saved in the DB as an array
  *           schema:
  *             type: array
+ *             $ref: '#/components/schemas/User'
+ *
+ *     post:
+ *       summary: Creates a new user and writes it to the database
+ *       tags: [Users]
+ *       consumes:
+ *        - application/json
+ *       produces:
+ *        - application/json
+ *       parameters:
+ *        - name: user
+ *          required: true
+ *          description: User that is to be created
+ *          in: body
+ *          schema:
+ *            $ref: '#/components/schemas/User'
+ *       responses:
+ *         200:
+ *           description: OK
+ *         500:
+ *           description: Bad request. Not all necessary params have been provided
  */
 
-router.get('/', (req, res) => {
-  res.send({ msg: "Successfully hit the user route" })
-});
+router.get('/', (req, res) => handleGetUsers(req, res));
+router.post('/', (req, res) => handleWriteUser(req, res));
 
 
 /**
@@ -75,16 +92,24 @@ router.get('/', (req, res) => {
  *     get:
  *       summary: Returns a user by its id
  *       tags: [Users]
+ *       consumes:
+ *        - application/json
  *       produces:
  *        - application/json
+ *       parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: Unique ID of the user
  *       responses:
  *         200:
- *           description: todos
+ *           description: Users
  *           schema:
- *             type: array
+ *             type: object
+ *             $ref: '#/components/schemas/User'
  */
-router.get('/:id', (req, res) => {
-  res.send({ msg: "Successfully hit the user id route" })
-});
+router.get('/:id', (req, res) => handleGetUserById(req, res));
 
 module.exports = router;

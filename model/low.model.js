@@ -27,7 +27,7 @@ const lowModel = {
   },
 
   writeUser(user) {
-    db.defaults({ users: [{}], todos: [{}] }).write();
+    db.defaults({ users: [], todos: [] }).write();
     return new Promise((resolve, reject) => {
       user.id = uuidv4();
       user.createdAt = moment();
@@ -36,7 +36,7 @@ const lowModel = {
 
         // If all fields are filled, continue
       } else {
-        db.get('todos').push(todo).write();
+        db.get('users').push(user).write();
         resolve();
       }
     })

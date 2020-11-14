@@ -1,10 +1,11 @@
 const model = require("../model/low.model");
 
 const handleWriteUser = (req, res) => {
-  const payload = req.body;
+  console.log(req.body);
+  const user = req.body;
 
-  model.writeUser(payload)
-    .then()
+  model.writeUser(user)
+    .then(() => res.send({ msg: 'Successfully wrote user into database'}))
     .catch(err => res.status(500).send({ msg: `An error occured while writing User: ${err}` }))
 }
 
@@ -19,7 +20,7 @@ const handleGetUserById = (req, res) => {
 
   model.getUserById(id)
     .then(data => res.send({ msg: 'Successfully fetched users from database', data }))
-    .catch(err => res.status(500).send({ msg: `An error occured while writing User: ${err}` }))
+    .catch(err => res.status(500).send({ msg: `An error occured while getting User: ${err}` }))
 
 }
 
