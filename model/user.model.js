@@ -11,20 +11,8 @@ const db = low(userAdapter);
 
 // TODO Replace this file with the actual model of your API
 const lowModel = {
-	writeTodo(todo) {
-		db.defaults({ users: [], todos: [] }).write();
-		return new Promise((resolve, reject) => {
-			todo.id = uuidv4();
-			todo.createdAt = moment();
-			if (!todo.finished) todo.finished = false;
-
-			db.get('todos').push(todo).write();
-			resolve(db.get('todos').find({id: todo.id}));
-		});
-	},
-
 	writeUser(user) {
-		db.defaults({ users: [], todos: [] }).write();
+		db.defaults({ users: [] }).write();
 		return new Promise((resolve, reject) => {
 			user.id = uuidv4();
 			user.createdAt = moment();
@@ -34,7 +22,7 @@ const lowModel = {
 				// If all fields are filled, continue
 			} else {
 				db.get('users').push(user).write();
-				resolve(db.get('users').find({id: user.id}));
+				resolve(db.get('users').find({ id: user.id }));
 			}
 		});
 	},
@@ -48,13 +36,41 @@ const lowModel = {
 	getUserById(id) {
 		return new Promise((resolve, reject) => {
 			if (!id) {
-				reject('Please provide an ID');
+				reject('No id was provided');
 			} else {
-				console.log(id);
 				resolve(db.get('users').find({ id: id }).value());
 			}
 		});
 	},
+
+	updateUserById(id, payload) {
+		return new Promise((resolve, reject) => {
+			if (!id) {
+				reject('No id was provided');
+			} else if (
+				!payload.username &&
+				!payload.city &&
+				!payload.street &&
+				!payload.housenum
+			) {
+				reject('There are no values to be updated');
+			} else {
+				db.get('users').find({ id: id }).assign(payload).write();
+				resolve(db.get('users').find({ id: id }).value());
+			}
+		});
+	},
+
+	deleteUserById(id) {
+		return new Promise((resolve, reject) => {
+			if (!id) {
+				reject('No id was provided');
+			} else {
+				db.get('users').delete({ id: id }).write();
+				resolve();
+			}
+		});
+	}
 };
 
 module.exports = lowModel;

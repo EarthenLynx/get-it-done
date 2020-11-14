@@ -42,4 +42,52 @@ const handleGetUserById = (req, res) => {
 		);
 };
 
-module.exports = { handleWriteUser, handleGetUsers, handleGetUserById };
+const handleUpdateUserById = (req, res) => {
+	const id = req.params.id;
+	const payload = req.body;
+
+	model
+		.updateUserById(id, payload)
+		.then(data =>
+			res.send({
+				status: 'success',
+				msg: `User with id ${id} has been updated successfully`,
+				data,
+			})
+		)
+		.catch(err =>
+			res.send({
+				status: 'error',
+				msg: 'User could not be updated',
+				err,
+			})
+		);
+};
+
+const handleDeleteUserById = (req, res) => {
+	const id = req.params.id;
+
+	model
+		.deleteUserById(id)
+		.then(() =>
+			res.send({
+				status: 'success',
+				msg: `User with id ${id} has been deleted successfully`,
+			})
+		)
+		.catch(err =>
+			res.status(500).send({
+				status: 'error',
+				msg: 'User could not be deleted',
+				err,
+			})
+		);
+};
+
+module.exports = {
+	handleWriteUser,
+	handleGetUsers,
+	handleGetUserById,
+	handleUpdateUserById,
+	handleDeleteUserById,
+};
