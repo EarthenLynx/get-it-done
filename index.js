@@ -8,7 +8,7 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require('swagger-ui-express');
 
 // Initialize the routes
-const userRoute = require("./routes/user");
+const userRoute = require("./api/v1/routes/user");
 
 // Initialize app and configs
 const app = express();
@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
 // Initialize the routes
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api-docs/v1", swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/user", userRoute);
 
 app.listen(process.env.PORT, () => {

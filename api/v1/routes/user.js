@@ -59,7 +59,7 @@ const {
 	handleWriteUser,
 	handleGetUsers,
 	handleGetUserById,
-} = require('../controller/user.controller');
+} = require('../../../controller/user.controller');
 
 /**
  *@openapi

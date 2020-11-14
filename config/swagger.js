@@ -56,5 +56,5 @@ module.exports = {
 			},
 		},
 	},
-	apis: ['./routes/todo.js', './routes/user.js'],
+	apis: ['./api/v1/routes/todo.js', './api/v1/routes/user.js'],
 };
