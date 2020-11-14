@@ -39,7 +39,7 @@ module.exports = {
 	],
 	components: {
 		schemas: {
-			badRequest: {
+			BadRequest: {
 				type: 'object',
 				properties: {
 					status: {

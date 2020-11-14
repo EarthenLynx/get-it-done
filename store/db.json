@@ -1,24 +1,21 @@
 {
   "users": [
-    {},
     {
-      "id": "84f37dc7-3e33-4369-a086-450ff0477328",
-      "username": "string",
-      "city": "string",
-      "street": "string",
-      "housenum": "string",
-      "createdAt": "2020-11-14T11:51:48.402Z"
+      "id": "71dc2d04-a9f1-498e-a250-0205bc6d02a2",
+      "username": "John Doe",
+      "city": "Chicago",
+      "street": "5th Av.",
+      "housenum": "25",
+      "createdAt": "2020-11-14T15:44:39.183Z"
     },
     {
-      "id": "ecba67a6-473b-438d-b11a-34fbae33c99c",
-      "username": "string",
-      "city": "string",
-      "street": "string",
-      "housenum": "string",
-      "createdAt": "2020-11-14T11:52:46.978Z"
+      "id": "3a54ad23-e7ad-4bd6-90ce-2dec1b02ece3",
+      "username": "Jane Doe",
+      "city": "New York",
+      "street": "7th Av.",
+      "housenum": "5",
+      "createdAt": "2020-11-14T15:49:07.532Z"
     }
   ],
-  "todos": [
-    {}
-  ]
+  "todos": []
 }

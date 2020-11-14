@@ -1,4 +1,4 @@
-const model = require('../model/low.model');
+const model = require('../model/user.model');
 
 const handleWriteUser = (req, res) => {
 	console.log(req.body);

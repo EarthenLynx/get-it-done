@@ -12,14 +12,14 @@ const db = low(userAdapter);
 // TODO Replace this file with the actual model of your API
 const lowModel = {
 	writeTodo(todo) {
-		db.defaults({ users: [{}], todos: [{}] }).write();
+		db.defaults({ users: [], todos: [] }).write();
 		return new Promise((resolve, reject) => {
 			todo.id = uuidv4();
 			todo.createdAt = moment();
 			if (!todo.finished) todo.finished = false;
 
 			db.get('todos').push(todo).write();
-			resolve();
+			resolve(db.get('todos').find({id: todo.id}));
 		});
 	},
 
@@ -34,23 +34,7 @@ const lowModel = {
 				// If all fields are filled, continue
 			} else {
 				db.get('users').push(user).write();
-				resolve();
-			}
-		});
-	},
-
-	getTodo() {
-		return new Promise((resolve, reject) => {
-			resolve(db.get('todos').value());
-		});
-	},
-
-	getTodoById(id) {
-		return new Promise((resolve, reject) => {
-			if (!id) {
-				reject('Please provide an ID');
-			} else {
-				resolve(db.get('todos').filter({ id: id }).value());
+				resolve(db.get('users').find({id: user.id}));
 			}
 		});
 	},
@@ -60,6 +44,7 @@ const lowModel = {
 			resolve(db.get('users').value());
 		});
 	},
+
 	getUserById(id) {
 		return new Promise((resolve, reject) => {
 			if (!id) {
