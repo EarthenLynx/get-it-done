@@ -6,7 +6,6 @@
  *         type: object
  *         required:
  *           - text
- *           - finished
  *         properties:
  *           id:
  *             type: integer
@@ -38,11 +37,42 @@
  *     description: API to return the Todos
  */
 
+const router = require("express").Router();
+const { handleWriteTodo, handleGetTodos, handleGetTodoById } = require("../controller/todo.controller")
+
 /**
  * @swagger
  *   /todo:
  *     get:
- *       description: Returns todos
+ *       description: Returns a list of all todos
+ *       tags: [Todos]
+ *       produces:
+ *        - application/json
+ *       responses:
+ *         200:
+ *           description: Array of todos that have been returned by db query
+ *           schema:
+ *             type: array
+ *     post:
+ *      description: Writes a single todo object into the database.
+ *      tags: [Todos]
+ *      produces:
+ *       - application/json
+ *      responses:
+ *        200:
+ *          description: Status message to indicate todo has been written to db
+ *          schema:
+ *            type: object
+ */
+
+router.get('/', (req, res) => handleGetTodos(req, res));
+router.post('/', (req, res) => handleWriteTodo(req, res))
+
+/**
+ * @swagger
+ *   /todo/:id:
+ *     get:
+ *       description: Returns a todo by its id
  *       tags: [Todos]
  *       produces:
  *        - application/json
@@ -50,10 +80,9 @@
  *         200:
  *           description: todos
  *           schema:
- *             type: array
+ *             type: object
  */
-const router = require("express").Router();
 
-router.get('/', (req, res) => console.log("hit todo route"));
+router.get('/:id', (req, res) => handleGetTodoById(req, res));
 
 module.exports = router;

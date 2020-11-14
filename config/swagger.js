@@ -1,4 +1,5 @@
 const host = process.env.HOST;
+const port = process.env.PORT;
 
 module.exports = {
   definition: {
@@ -7,7 +8,7 @@ module.exports = {
       title: "Express API Swagger boilerplate",
       version: "1.2.3",
       description:
-        "This is a boilerplate to document openapi interfaces. Please refrain to the MD file in the ",
+        "This is a boilerplate to document openapi interfaces. Please refrain to the MD file in the root file for more info",
       license: {
         name: "MIT",
         url: "https://spdx.org/licenses/MIT.html",
@@ -22,7 +23,7 @@ module.exports = {
     host: `${host}`,
     servers: [
       {
-        url: `${host}`,
+        url: `${host}:${port}`,
       }
     ],
   },

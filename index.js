@@ -28,7 +28,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser())
-app.use(morgan('dev'))
+app.use(cookieParser());
+app.use(morgan('dev'));
 
-app.listen(process.env.PORT, () => console.log(`App listening on http://localhost:${process.env.PORT}`))
+app.listen(process.env.PORT, () => {
+  console.log(`App listening on ${process.env.HOST}:${process.env.PORT}`)
+  console.log(`Api documentation running on ${process.env.HOST}:${process.env.PORT}${process.env.PATH_DOCS}`)
+})

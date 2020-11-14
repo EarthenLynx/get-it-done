@@ -30,9 +30,10 @@
  *             format: date
  *             description: The date of the record creation.
  *           example:
- *             title: Household
- *             text: Wash the dishes and clean the laundry
- *             finished: false
+ *             username: John Doe
+ *             city: Chicago
+ *             street: 5th Av.
+ *             housenum: 25
  *             createdAt: 2020-08-01T13:12:44
  */
 
@@ -43,11 +44,16 @@
  *     description: API to return the users
  */
 
+
+
+
+const router = require("express").Router();
+
 /**
  * @swagger
  *   /user:
  *     get:
- *       summary: Returns a single user
+ *       summary: Returns a list of all users
  *       tags: [Users]
  *       produces:
  *        - application/json
@@ -58,8 +64,27 @@
  *             type: array
  */
 
-const router = require("express").Router();
+router.get('/', (req, res) => {
+  res.send({ msg: "Successfully hit the user route" })
+});
 
-router.get('/', (req, res) => console.log("hit user route"));
+
+/**
+ * @swagger
+ *   /user/:id:
+ *     get:
+ *       summary: Returns a user by its id
+ *       tags: [Users]
+ *       produces:
+ *        - application/json
+ *       responses:
+ *         200:
+ *           description: todos
+ *           schema:
+ *             type: array
+ */
+router.get('/:id', (req, res) => {
+  res.send({ msg: "Successfully hit the user id route" })
+});
 
 module.exports = router;
