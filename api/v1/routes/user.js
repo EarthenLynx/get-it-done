@@ -30,7 +30,7 @@
  *            format: date
  *            description: The date of the record creation. Will be automatially added when user is created
  *            example: '2020-11-14T11:51:48.402Z'
- *      UserException:
+ *      UserNotFoundException:
  *        type: object
  *        properties:
  *          status:
@@ -41,7 +41,7 @@
  *            type: string
  *            description: The message that is linked to this error
  *            example: 'The user you are looking for could not be found'
- *      UserExceptionError:
+ *      UserUnexpectedErrorException:
  *        type: object
  *        properties:
  *          status:
@@ -51,7 +51,11 @@
  *          msg:
  *            type: string
  *            description: The message that is linked to this error
- *            example: 'An unexpected error occured: (err)'
+ *            example: 'An unexpected error occured'
+ *          err:
+ *            type: string
+ *            description: The error message thrown by the called function
+ *            example: 'An unexpected error occured'
  */
 
 const router = require('express').Router();
@@ -59,6 +63,8 @@ const {
 	handleWriteUser,
 	handleGetUsers,
 	handleGetUserById,
+	handleUpdateUserById,
+	handleDeleteUserById,
 } = require('../../../controller/user.controller');
 
 /**
@@ -78,18 +84,12 @@ const {
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/User'
- *        404:
- *          description: Returns an object describing the not-found exception that occured
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/components/schemas/UserException'
  *        500:
  *          description: Returns an object describing the unexpected server error that occured
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/UserExceptionError'
+ *                $ref: '#/components/schemas/UserUnexpectedErrorException'
  *    post:
  *      summary: Creates a new user and writes it to the database
  *      tags: [Users]
@@ -105,10 +105,18 @@ const {
  *            schema:
  *              $ref: '#/components/schemas/User'
  *      responses:
- *        200:
- *          description: OK
+ *        201:
+ *          description: Indicates that the user has been created successfully. Created user will be returned.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
  *        500:
  *          description: Bad request. Not all necessary params have been provided
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/UserUnexpectedErrorException'
  */
 
 router.get('/', (req, res) => handleGetUsers(req, res));
@@ -137,7 +145,57 @@ router.post('/', (req, res) => handleWriteUser(req, res));
  *          schema:
  *            type: object
  *            $ref: '#/components/schemas/User'
+ *        404:
+ *          description: Returns an object describing the not-found exception that occured
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/UserNotFoundException'
+ *    put:
+ *      summary: Updates a single user by its id
+ *      tags: [Users]
+ *      consumes:
+ *      	- application/json
+ *      produces:
+ *      	- application/json
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: Unique ID of the user
+ *      requestBody:
+ *        description: Updated user data to be saved in the database
+ *        required: true,
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      responses:
+ *        200:
+ *          description: Updated userdata
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/User'
+ *    delete:
+ *      summary: Deletes a user by its id
+ *      tags: [Users]
+ *      consumes:
+ *      	- application/json
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: Unique ID of the user
+ *      responses:
+ *        204:
+ *          description: An empty response indicating that the user has been deleted
  */
 router.get('/:id', (req, res) => handleGetUserById(req, res));
+router.put('/:id', (req, res) => handleUpdateUserById(req, res));
+router.delete('/:id', (req, res) => handleDeleteUserById(req, res));
 
 module.exports = router;
