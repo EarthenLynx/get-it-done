@@ -1,0 +1,25 @@
+{
+	"env": {
+		"node": true,
+		"commonjs": true,
+		"es2021": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"ecmaVersion": 12
+	},
+	"rules": {
+		"arrow-body-style": ["error", "always"],
+		"default-case": "warn",
+		"eqeqeq": ["error", "always"],
+		"indent": ["error", "tab"],
+		"no-eval": "error",
+		"no-use-before-define": ["error", { "functions": true, "classes": true }],
+		"no-var": "error",
+		"one-var": ["warn", "never"],
+		"prefer-const": "error",
+		"quotes": ["error", "single"],
+		"quote-props": ["warn", "consistent"],
+		"semi": ["error", "always"]
+	}
+}
