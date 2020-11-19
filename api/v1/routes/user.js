@@ -119,8 +119,12 @@ const {
  *                $ref: '#/components/schemas/UserUnexpectedErrorException'
  */
 
-router.get('/', (req, res) => handleGetUsers(req, res));
-router.post('/', (req, res) => handleWriteUser(req, res));
+router.get('/', (req, res) => {
+	return handleGetUsers(req, res);
+});
+router.post('/', (req, res) => {
+	return handleWriteUser(req, res);
+});
 
 /**
  *@openapi
@@ -194,8 +198,14 @@ router.post('/', (req, res) => handleWriteUser(req, res));
  *        204:
  *          description: An empty response indicating that the user has been deleted
  */
-router.get('/:id', (req, res) => handleGetUserById(req, res));
-router.put('/:id', (req, res) => handleUpdateUserById(req, res));
-router.delete('/:id', (req, res) => handleDeleteUserById(req, res));
+router.get('/:id', (req, res) => {
+	return handleGetUserById(req, res);
+});
+router.put('/:id', (req, res) => {
+	return handleUpdateUserById(req, res);
+});
+router.delete('/:id', (req, res) => {
+	return handleDeleteUserById(req, res);
+});
 
 module.exports = router;

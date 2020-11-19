@@ -28,7 +28,7 @@ const lowModel = {
 	},
 
 	getUser() {
-		return new Promise((resolve, reject) => {
+		return new Promise(resolve => {
 			resolve(db.get('users').value());
 		});
 	},
@@ -70,7 +70,7 @@ const lowModel = {
 				resolve();
 			}
 		});
-	}
+	},
 };
 
 module.exports = lowModel;
