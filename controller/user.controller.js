@@ -7,7 +7,9 @@ const handleWriteUser = (req, res) => {
 	model
 		.writeUser(user)
 		.then(() => {
-			return res.send({ msg: 'Successfully wrote user into database' });
+			return res
+				.status(201)
+				.send({ msg: 'Successfully wrote user into database', data: user });
 		})
 		.catch(err => {
 			return res
