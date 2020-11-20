@@ -7,8 +7,6 @@ const {
 	handleDeleteUserById,
 } = require('../../../controller/user.controller');
 
-
-
 router.get('/', (req, res) => {
 	return handleGetUsers(req, res);
 });

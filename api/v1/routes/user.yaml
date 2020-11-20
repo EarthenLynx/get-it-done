@@ -62,6 +62,22 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/User'
+        links:
+          getUserById:
+            description: The id - value returned in the response can be used as the id parameter in `GET user/{id}/`
+            operationId: getUserById
+            parameters:
+              userId: $response.body#/id
+          updateUserById:
+            description: The id - value returned in the response can be used as the id parameter in `PUT user/{id}/`
+            operationId: updateUserById
+            parameters:
+              userId: $response.body#/id
+          deleteUserById:
+            description: The id - value returned in the response can be used as the id parameter in `DELETE user/{id}/`
+            operationId: deleteUserById
+            parameters:
+              userId: $response.body#/id
       500:
         description: Returns an object describing the unexpected server error that occured
         content:
@@ -105,7 +121,8 @@ components:
 # User endpoint with id - path param
 /user/{id}:
   get:
-    summary: Allows data manipulation on a single user, identified by its id.
+    summary: Returns a single user identified by its id
+    operationId: getUserById
     tags: [Users]
     consumes:
     	- application/json
@@ -133,6 +150,7 @@ components:
               $ref: '#/components/schemas/UserNotFoundException'
   put:
     summary: Updates a single user by its id
+    operationId: updateUserById
     tags: [Users]
     consumes:
     	- application/json
@@ -154,7 +172,7 @@ components:
             $ref: '#/components/schemas/User'
     responses:
       200:
-        description: Updated userdata
+        description: Returns the updated userdata
         content:
           application/json:
             schema:
@@ -180,3 +198,9 @@ components:
     responses:
       204:
         description: An empty response indicating that the user has been deleted
+      404:
+        description: Returns an object describing the not-found exception that occured
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNotFoundException'
