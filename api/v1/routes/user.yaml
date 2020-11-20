@@ -50,6 +50,7 @@ components:
 /user:
   get:
     summary: Returns a list of all users from the database
+    operationId: handleGetUsers
     tags: [Users]
     produces:
      - application/json
@@ -86,6 +87,7 @@ components:
               $ref: '#/components/schemas/UserUnexpectedErrorException'
   post:
     summary: Creates a new user and writes it to the database
+    operationId: handleWriteUser
     tags: [Users]
     consumes:
       - application/json
