@@ -32,7 +32,16 @@
 .swagger-ui .btn.execute {
 	background-color: var(--maincolor);
 	border-color: var(--maincolor);
-	max-width: 200px;
+	max-width: 150px;
+}
+
+.btn-group {
+	width: 100%;
+}
+
+.btn.btn-clear.opblock-control__btn,
+.btn.execute.opblock-control__btn {
+	width: 100%;
 }
 
 /* Topbar module styles */
