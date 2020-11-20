@@ -1,0 +1,149 @@
+@import './variables.css';
+
+/* General module styles */
+.swagger-ui .servers > label select,
+.swagger-ui .btn,
+.swagger-ui .response-control-media-type--accept-controller select,
+.swagger-ui select {
+	border-radius: var(--mediumsize);
+	border-color: #f2f2f2;
+	border: 1px solid #f2f2f2;
+	transition: 0.25s all;
+	cursor: pointer;
+}
+
+.swagger-ui .servers > label select:hover,
+.swagger-ui .btn:hover,
+.swagger-ui .response-control-media-type--accept-controller select:hover,
+.swagger-ui select:hover {
+	-webkit-box-shadow: 0px 0px 5px 0px var(--maincolor);
+	-moz-box-shadow: 0px 0px 5px 0px var(--maincolor);
+	box-shadow: 0px 0px 5px 0px var(--maincolor);
+	transition: 0.25s all;
+}
+
+.swagger-ui .servers > label select:focus,
+.swagger-ui .btn:focus,
+.swagger-ui .response-control-media-type--accept-controller select:focus,
+.swagger-ui select:focus {
+	outline: none;
+}
+
+.swagger-ui .btn.execute {
+	background-color: var(--maincolor);
+	border-color: var(--maincolor);
+	max-width: 200px;
+}
+
+/* Topbar module styles */
+.swagger-ui .topbar {
+	background-color: var(--maincolor);
+}
+
+/* Header styles */
+.swagger-ui .info .title small.version-stamp {
+	background-color: var(--detailcolor);
+}
+
+.swagger-ui .info .title small {
+	background-color: var(--secondcolor);
+}
+
+/* Tag modules */
+.swagger-ui .opblock-tag-section {
+	margin: 30px 0;
+	border: 1px solid rgba(59, 65, 81, 0.3);
+	border-radius: 4px;
+}
+
+/* Schema modules */
+.swagger-ui section.models .model-container {
+	background-color: var(--textcolor);
+	border-left: 4px solid var(--detailcolor);
+}
+
+.swagger-ui section.models .model-container:hover {
+	background-color: #f5f5f5;
+}
+
+/* General Method modules */
+.swagger-ui .opblock-body pre.microlight {
+	background-color: #000 !important;
+	padding-left: var(--smallsize) !important;
+}
+
+.swagger-ui .opblock-body pre.microlight > span {
+	color: var(--textcolor) !important;
+}
+
+/* GET Method modules */
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+	background-color: var(--getcolorprimary);
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary {
+	background-color: var(--textcolor);
+}
+
+.swagger-ui .opblock.opblock-get {
+	margin: var(--smallsize);
+	border-color: var(--getcolorprimary);
+}
+
+.swagger-ui .opblock.opblock-get .tab-header .tab-item.active h4 span:after {
+	background: var(--getcolorprimary);
+}
+
+/* POST Method modules */
+.swagger-ui .opblock.opblock-post .opblock-summary-method {
+	background-color: var(--postcolorprimary);
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary {
+	background-color: var(--textcolor);
+}
+
+.swagger-ui .opblock.opblock-post {
+	margin: var(--smallsize);
+	border-color: var(--postcolorprimary);
+}
+
+.swagger-ui .opblock.opblock-post .tab-header .tab-item.active h4 span:after {
+	background: var(--postcolorprimary);
+}
+
+/* PUT Method modules */
+.swagger-ui .opblock.opblock-put .opblock-summary-method {
+	background-color: var(--putcolorprimary);
+}
+
+.swagger-ui .opblock.opblock-put .opblock-summary {
+	background-color: var(--textcolor);
+}
+
+.swagger-ui .opblock.opblock-put {
+	margin: var(--smallsize);
+	border-color: var(--putcolorprimary);
+}
+
+.swagger-ui .opblock.opblock-put .tab-header .tab-item.active h4 span:after {
+	background: var(--putcolorprimary);
+}
+
+/* DELETE Method modules */
+.swagger-ui .opblock.opblock-delete .opblock-summary-method {
+	background-color: var(--deletecolorprimary);
+}
+
+.swagger-ui .opblock.opblock-delete .opblock-summary {
+	background-color: var(--textcolor);
+}
+
+.swagger-ui .opblock.opblock-delete {
+	margin: var(--smallsize);
+	border-color: var(--deletecolorprimary);
+}
+
+.swagger-ui .opblock.opblock-delete .tab-header .tab-item.active h4 span:after {
+	background: var(--deletecolorprimary);
+}

@@ -15,8 +15,7 @@ const app = express();
 require('dotenv').config();
 
 // Initialize costum modules
-const swaggerOptions = require('./config/swagger');
-const specs = swaggerJsdoc(swaggerOptions);
+const {swaggerSpecs, swaggerOptions } = require('./config/swagger');
 
 // Initialize the middleware
 app.use(express.json());
@@ -26,7 +25,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
 // Initialize the routes
-app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerSpecs), swaggerOptions));
 app.use('/user', userRoute);
 
 app.listen(process.env.PORT, () => {

@@ -1,0 +1,21 @@
+:root {
+  /* Colors */
+	--maincolor: #2a2c29;
+	--secondcolor: #3e1311;
+	--detailcolor: #691b1a;
+	--textcolor: #fdfdfd;
+
+	--getcolorprimary: #284464;
+	--getcolorsecondary: #c5d4e6;
+	--postcolorprimary: #335a53;
+	--postcolorsecondary:#cae6e1;
+	--putcolorprimary: #97653b;
+	--putcolorsecondary: #ebdcd2;
+	--deletecolorprimary: #691b1a;
+  --deletecolorsecondary: #d6a9a8;
+
+  /* Sizes */
+  --smallsize: 1rem;
+  --mediumsize: 2.5rem;
+  --bigsize: 4rem;
+}

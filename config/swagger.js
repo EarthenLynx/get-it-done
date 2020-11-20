@@ -1,7 +1,7 @@
 const host = process.env.HOST;
 const port = process.env.PORT;
 
-module.exports = {
+const swaggerSpecs = {
 	definition: {
 		openapi: '3.0.0',
 		info: {
@@ -56,5 +56,11 @@ module.exports = {
 			},
 		},
 	},
-	apis: ['./api/v1/routes/todo.js', './api/v1/routes/user.js', './api/v1/routes/user.yaml'],
+	apis: ['./api/v1/routes/user.yaml'],
 };
+
+const swaggerOptions = {
+	customCssUrl: 'http://localhost:3000/css/main.css'
+};
+
+module.exports = { swaggerSpecs, swaggerOptions };
