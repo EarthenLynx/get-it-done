@@ -23,12 +23,6 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-app.use(helmet());
-
-// Load specific middleware for production environment
-if (process.env.NODE_ENV === 'production') {
-	app.use(helmet());
-}
 
 // Load specific middleware for dev environment
 if (process.env.NODE_ENV === 'development') {
