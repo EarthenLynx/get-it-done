@@ -66,7 +66,8 @@ const lowModel = {
 			if (!id) {
 				reject('No id was provided');
 			} else {
-				db.get('users').delete({ id: id }).write();
+				console.log('Now deleting user');
+				db.get('users').remove({ id: id }).write();
 				resolve();
 			}
 		});
