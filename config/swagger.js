@@ -60,7 +60,7 @@ const swaggerSpecs = {
 };
 
 const swaggerOptions = {
-	customCssUrl: 'http://localhost:3000/css/main.css'
+	customCssUrl: `${host}/css/main.css`
 };
 
 module.exports = { swaggerSpecs, swaggerOptions };
