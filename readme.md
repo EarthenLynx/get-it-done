@@ -1,18 +1,30 @@
 # Boilerplate for express rest api
 
+```
+$ git clone https://github.com/EarthenLynx/express-boilerplate.git
+```
+
+cd into the directory and
+
+```
+$ npm init
+```
+
 Feature list
 
 | Name          | Desc                                | Status |
 | ------------- | ----------------------------------- | ------ |
-| Endpoints     | Template for routes                 |        |
-| .env creation | Create a .env variable              |        |
-| jest testing  | Create tests with jest on endpoints |        |
+| Endpoints     | Template for routes                 | todo   |
+| .env creation | Create a .env variable              | done   |
+| jest testing  | Create tests with jest on endpoints | todo   |
 
 What's done on initialization
 
 - Create a .env file with the necessary process variables
-  - Port
-  - Secret
+  - Host and Port
+  - Node environment
+  - Api Version and the path for the docs
+  - A secret to be used for jwt or such
 
 
 ## Descibe a get - request
