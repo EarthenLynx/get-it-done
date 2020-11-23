@@ -14,7 +14,7 @@ const envPath = path.join(__dirname, '../.env');
 const createDotEnvFile = () => {
 	const envText = `PORT=3000
 HOST=http://localhost
-ENVIRONMENT=development
+NODE_ENV=development
 API_VERSION=/v1
 PATH_DOCS=/api-docs
 SECRET=SUPER_SECRET_123`;
