@@ -1,5 +1,9 @@
 @import './variables.css';
 
+img {
+  display: none;
+}
+
 /* General module styles */
 .swagger-ui .servers > label select,
 .swagger-ui .btn,

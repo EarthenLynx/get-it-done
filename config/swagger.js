@@ -1,6 +1,6 @@
 const host = process.env.HOST;
 const port = process.env.PORT;
-const cssPath = () => {
+const hostRoot = () => {
 	if (process.env.NODE_ENV === 'development') {
 		return `${host}:${port}`;
 	} else {
@@ -67,7 +67,8 @@ const swaggerSpecs = {
 };
 
 const swaggerOptions = {
-	customCssUrl: `${cssPath()}/css/main.css`,
+	customJs: `${hostRoot()}/js/swagger.js`,
+	customCssUrl: `${hostRoot()}/css/main.css`,
 };
 
 module.exports = { swaggerSpecs, swaggerOptions };
