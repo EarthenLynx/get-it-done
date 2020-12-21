@@ -1,7 +1,7 @@
 @import './variables.css';
 
 img {
-  display: none;
+	display: none;
 }
 
 /* General module styles */
@@ -87,6 +87,13 @@ img {
 
 .swagger-ui .opblock-body pre.microlight > span {
 	color: var(--textcolor) !important;
+}
+
+td.response-col_description,
+td.response-col_status,
+td.response-col_links {
+	padding-bottom: var(--smallsize) !important;
+	border-bottom: 1px solid rgba(59,65,81,.2);
 }
 
 /* GET Method modules */
