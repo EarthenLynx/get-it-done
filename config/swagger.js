@@ -100,24 +100,24 @@ const swaggerSpecs = {
 	],
 	apis: [
 		/* Primary resources */
-		'./api/v1/routes/intray.yaml',
-		'./api/v1/routes/information.yaml',
-		'./api/v1/routes/waitingFor.yaml',
-		'./api/v1/routes/calender.yaml',
-		'./api/v1/routes/nextAction.yaml',
-		'./api/v1/routes/projects.yaml',
+		'./api/v1/specs/intray.yaml',
+		'./api/v1/specs/information.yaml',
+		'./api/v1/specs/waitingFor.yaml',
+		'./api/v1/specs/calender.yaml',
+		'./api/v1/specs/nextAction.yaml',
+		'./api/v1/specs/projects.yaml',
 
 		/* Secondary resources */
-		'./api/v1/routes/actionLists.yaml',
-		'./api/v1/routes/operators.yaml',
-		'./api/v1/routes/users.yaml',
-		'./api/v1/routes/auth.yaml',
-		'./api/v1/routes/logs.yaml',
-		'./api/v1/routes/efforts.yaml',
-		'./api/v1/routes/clients.yaml',
+		'./api/v1/specs/actionLists.yaml',
+		'./api/v1/specs/operators.yaml',
+		'./api/v1/specs/users.yaml',
+		'./api/v1/specs/auth.yaml',
+		'./api/v1/specs/logs.yaml',
+		'./api/v1/specs/efforts.yaml',
+		'./api/v1/specs/clients.yaml',
 
 		/* Exception resources */
-		'./api/v1/routes/exceptions.yaml'
+		'./api/v1/specs/exceptions.yaml'
 	],
 };
 
