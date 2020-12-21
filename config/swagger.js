@@ -98,7 +98,27 @@ const swaggerSpecs = {
 				'Secondary resource: Efforts log the time being spent on a single task. They also link the action to a client.',
 		},
 	],
-	apis: ['./api/v1/routes/user.yaml'],
+	apis: [
+		/* Primary resources */
+		'./api/v1/routes/intray.yaml',
+		'./api/v1/routes/information.yaml',
+		'./api/v1/routes/waitingFor.yaml',
+		'./api/v1/routes/calender.yaml',
+		'./api/v1/routes/nextAction.yaml',
+		'./api/v1/routes/projects.yaml',
+
+		/* Secondary resources */
+		'./api/v1/routes/actionLists.yaml',
+		'./api/v1/routes/operators.yaml',
+		'./api/v1/routes/users.yaml',
+		'./api/v1/routes/auth.yaml',
+		'./api/v1/routes/logs.yaml',
+		'./api/v1/routes/efforts.yaml',
+		'./api/v1/routes/clients.yaml',
+
+		/* Exception resources */
+		'./api/v1/routes/exceptions.yaml'
+	],
 };
 
 const swaggerOptions = {
