@@ -3,88 +3,78 @@
 # It should be changed whenever the returned structure changes as well.
 components:
   schemas:
-    User:
+    Intray:
       type: object
       properties:
-        id:
-          type: integer
-          description: The auto-generated id of the User.
+        intrayId:
+          type: string
+          description: The auto-generated uuid of the intray item.
           example: '879127udh12f23'
-        username:
+        userId:
           type: string
-          description: Name of the user
-          example: 'John Doe'
-        city:
+          description: The uuid of the user who owns the item
+          example: 'f1298fh2378f2'
+        title:
           type: string
-          description: What city does the user live in?
-          example: 'Chicago'
-        street:
+          description: Title of the intray item.
+          example: 'Wash the dishes'
+        description:
           type: string
-          description: What street does the user live in?
-          example: '5th Av.'
-        housenum:
-          type: string
-          description: What house number does the user live in?
-          example: '25'
-        createdAt:
-          type: string
-          format: date
-          description: The date of the record creation. Will be automatially added when user is created
-          example: '2020-11-14T11:51:48.402Z'
-    UserNotFoundException:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: The message that is linked to this error
-          example: 'The user you are looking for could not be found'
-    UserUnexpectedErrorException:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: The message that is linked to this error
-          example: 'An unexpected error occured'
+          description: A description of the intray item.
+          example: 'Clean up the dishes left from yesterday evening'
+        created:
+          type: date
+          description: Moment.js timestamp of when the intray item has been created.
+          example: 'Moment<2020-12-21T13:01:42+01:00>'
+        changed:
+          type: date
+          description: Moment.js timestamp of when intray item has been changed last.
+          example: 'Moment<2020-12-21T13:01:42+01:00>'
+        followup:
+          type: date
+          description: Moment.js timestamp of when intray item should be reviewed.
+          example: 'Moment<2020-12-21T13:01:42+01:00>'
+        done:
+          type: boolean
+          description: Whether the intray item is still valid or not
+          example: 'true'
 
-# User endpoint
-/user:
+# Intray endpoint
+/intray/{userId}:
   get:
-    summary: Returns a list of all users from the database
-    operationId: handleGetUsers
-    tags: [Users]
+    summary: Returns a list of all intray items for a specific user
+    operationId: handleGetIntrayByUserId
+    tags: [Intray]
     produces:
      - application/json
     responses:
       200:
-        description: Returns the users saved in the DB as an array
+        description: Returns the collection of intray items as a json array
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/User'
-        links:
-          getUserById:
-            description: The id - value returned in the response can be used as the id parameter in `GET user/{id}/`
-            operationId: getUserById
-            parameters:
-              userId: $response.body#/id
-          updateUserById:
-            description: The id - value returned in the response can be used as the id parameter in `PUT user/{id}/`
-            operationId: updateUserById
-            parameters:
-              userId: $response.body#/id
-          deleteUserById:
-            description: The id - value returned in the response can be used as the id parameter in `DELETE user/{id}/`
-            operationId: deleteUserById
-            parameters:
-              userId: $response.body#/id
+                $ref: '#/components/schemas/Intray'
+        # TODO: Add the link to possible followup
+        # links:
+        #   getUserById:
+        #     description: The id - value returned in the response can be used as the id parameter in `GET user/{id}/`
+        #     operationId: getUserById
+        #     parameters:
+        #       userId: $response.body#/id
+      404:
+        description: Returns an object describing that no items could be returned ( e.g. empty array returned by controller )
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotFoundException'
       500:
         description: Returns an object describing the unexpected server error that occured
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserUnexpectedErrorException'
+              $ref: '#/components/schemas/InternalErrorException'
   post:
     summary: Creates a new user and writes it to the database
     operationId: handleWriteUser
