@@ -1,0 +1,27 @@
+components:
+  schemas:
+    # HTTP status 404
+    NotFoundException:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Describes the type of error that occured during execution
+          example: 'not-found'
+        message:
+          type: string
+          description: Includes a message for the user to see that no items were found
+          example: Could not find the resource you are looking for
+
+    # HTTP status 500
+    InternalErrorException:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Describes the type of error that occured during execution
+          example: 'error'
+        msg:
+          type: string
+          description: Includes a message for the user to see what went wrong
+          example: Something went wrong, please try again later
