@@ -12,7 +12,7 @@ components:
           example: "879127udh12f23"
         userId:
           type: string
-          description: The uuid of the user who owns the item
+          description: The uuid of the user who owns the item.
           example: "f1298fh2378f2"
         title:
           type: string
@@ -40,7 +40,7 @@ components:
           example: "true"
 
 # Intray endpoint: No params
-/intray:
+/api/v1/intray:
   post:
     summary: Creates a new intray item. The userId property is taken from the user's json webtoken, the timestamps are created automatically
     operationId: handleCreateIntray
@@ -77,14 +77,14 @@ components:
             schema:
               $ref: "#/components/schemas/Intray"
       500:
-        description: Returns an object describing the unexpected server error that occured
+        description: Returns an `object` describing the unexpected server error that occured
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
 
 # Intray endpoint: User ID path
-/intray/{userId}:
+api/v1/intray/{userId}:
   get:
     summary: Returns a list of all intray items for a specific user. userId defaults to the userId extracted from the json webtoken.
     operationId: handleGetIntrayByUserId
@@ -127,20 +127,20 @@ components:
               items:
                 $ref: "#/components/schemas/Intray"
       404:
-        description: Returns an object describing that no items could be returned ( e.g. empty array returned by controller )
+        description: Returns an `object` describing that the intray item was not found
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/NotFoundException"
       500:
-        description: Returns an object describing the unexpected server error that occured
+        description: Returns an `object` describing the unexpected server error that occured
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
 
 # Intray endpoint: Intray ID path
-/intray/{intrayId}:
+/api/v1/intray/{intrayId}:
   get:
     summary: Returns a single intray item by its id
     operationId: handleGetIntrayByIntrayId
@@ -162,13 +162,13 @@ components:
             schema:
               $ref: "#/components/schemas/Intray"
       404:
-        description: Returns an object describing that the intray item was not found
+        description: Returns an `object` describing that the intray item was not found
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/NotFoundException"
       500:
-        description: Returns an object describing the unexpected server error that occured
+        description: Returns an `object` describing the unexpected server error that occured
         content:
           application/json:
             schema:
@@ -188,19 +188,19 @@ components:
       - application/json
     responses:
       200:
-        description: Returns the updated intray item as a json object
+        description: Returns an `object` representing the updated intray item
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/Intray"
       404:
-        description: Returns an object describing that the intray item was not found
+        description: Returns an `object` describing that the intray item was not found
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/NotFoundException"
       500:
-        description: Returns an object describing the unexpected server error that occured
+        description: Returns an `object` describing the unexpected server error that occured
         content:
           application/json:
             schema:
@@ -220,15 +220,15 @@ components:
       - application/json
     responses:
       204:
-        description: Returns an empty string with status code 204 'no content'
+        description: Returns an empty `string` with status code 204 'no content'
       404:
-        description: Returns an object describing that the intray item was not found
+        description: Returns an `object` describing that the intray item was not found
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/NotFoundException"
       500:
-        description: Returns an object describing the unexpected server error that occured
+        description: Returns an `object` describing the unexpected server error that occured
         content:
           application/json:
             schema:
