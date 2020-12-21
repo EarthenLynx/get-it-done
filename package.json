@@ -1,34 +1,33 @@
 {
-  "name": "express-boilerplate",
-  "version": "1.0.0",
-  "description": "Quick boilerplating for a REST Api with express.js",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon index",
-    "init": "npm install && node init/initialize",
-    "lint-fix": "eslint . --fix",
-    "test": "jest"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "chalk": "^4.1.0",
-    "cookie-parser": "^1.4.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "helmet": "^4.2.0",
-    "http-errors": "^1.8.0",
-    "moment": "^2.29.1",
-    "morgan": "^1.10.0",
-    "swagger-jsdoc": "^5.0.1",
-    "swagger-ui-express": "^4.1.4",
-    "uuid": "^8.3.1"
-  },
-  "devDependencies": {
-    "eslint": "^7.13.0",
-    "jest": "^26.6.3",
-    "lowdb": "^1.0.0",
-    "nodemon": "^2.0.6"
-  }
+	"name": "get-it-done",
+	"version": "1.0.0",
+	"description": "Get it done API provides an interface to connect to your workspace from other apps. The application's approach follows a workflow that embraces the 'Keep it simple, stupid' paradigm, while offering enough space to customize actions, if necessary",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon index",
+		"lint-fix": "eslint . --fix",
+		"test": "jest"
+	},
+	"author": "Tobias Quante",
+	"license": "MIT",
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"chalk": "^4.1.0",
+		"cookie-parser": "^1.4.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"helmet": "^4.2.0",
+		"http-errors": "^1.8.0",
+		"moment": "^2.29.1",
+		"mongoose": "^5.11.8",
+		"morgan": "^1.10.0",
+		"swagger-jsdoc": "^5.0.1",
+		"swagger-ui-express": "^4.1.5",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"eslint": "^7.16.0",
+		"jest": "^26.6.3",
+		"nodemon": "^2.0.6"
+	}
 }
