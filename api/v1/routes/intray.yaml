@@ -39,7 +39,7 @@ components:
           description: Whether the intray item is still valid or not
           example: "true"
 
-# Intray endpoint
+# Intray endpoint: No params
 /intray:
   post:
     summary: Creates a new intray item. The userId property is taken from the user's json webtoken, the timestamps are created automatically
@@ -83,10 +83,10 @@ components:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
 
-# User ID endpoint
+# Intray endpoint: User ID path
 /intray/{userId}:
   get:
-    summary: Returns a list of all intray items for a specific user
+    summary: Returns a list of all intray items for a specific user. userId defaults to the userId extracted from the json webtoken.
     operationId: handleGetIntrayByUserId
     tags: [Intray]
     parameters:
@@ -94,8 +94,27 @@ components:
         name: userId
         schema:
           type: string
-        required: true
-        description: Unique ID of the user for which intray items should be returned
+        required: false
+        description: Unique ID of the user for which intray items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
+      - in: query
+        name: q
+        schema:
+          type: string
+        required: false
+        description: Query the title and description for a specific substring. If it appears in one of these, it will be part of the returned array.
+      - in: query
+        name: done
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only items marked as done. If set to false, only items marked as pending.
+      - in: query
+        name: overdue
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only intray items which have a followup date that's in the past.
+
     produces:
       - application/json
     responses:
@@ -120,7 +139,7 @@ components:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
 
-# Intray ID endpoint
+# Intray endpoint: Intray ID path
 /intray/{intrayId}:
   get:
     summary: Returns a single intray item by its id
@@ -137,11 +156,71 @@ components:
       - application/json
     responses:
       200:
-        description: Returns the collection of intray items as a json array
+        description: Returns the called intray item as a json object
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/Intray"
+      404:
+        description: Returns an object describing that the intray item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an object describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  put:
+    summary: Update a single intray item by its id
+    operationId: handleUpdateIntrayByIntrayId
+    tags: [Intray]
+    parameters:
+      - in: path
+        name: intrayId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the intray item which should be updated
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns the updated intray item as a json object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Intray"
+      404:
+        description: Returns an object describing that the intray item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an object describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Delete a single intray item by its id
+    operationId: handleDeleteIntrayByInstrayId
+    tags: [Intray]
+    parameters:
+      - in: path
+        name: intrayId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the intray item which should be deleted
+    produces:
+      - application/json
+    responses:
+      204:
+        description: Returns an empty string with status code 204 'no content'
       404:
         description: Returns an object describing that the intray item was not found
         content:
