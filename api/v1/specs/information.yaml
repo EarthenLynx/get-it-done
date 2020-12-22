@@ -1,4 +1,4 @@
-# This document is used to describe the user path.
+# This document is used to describe the /information path.
 # It contains the data schema, as well as the endpoints
 # It should be changed whenever the returned structure changes as well.
 components:

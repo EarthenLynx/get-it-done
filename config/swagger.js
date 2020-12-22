@@ -36,10 +36,6 @@ const swaggerSpecs = {
 	},
 	tags: [
 		{
-			name: 'Waiting for',
-			description: 'Primary resource: Delegated tasks, in case oneself is not the right person for the job.',
-		},
-		{
 			name: 'Calender',
 			description:
 				'Primary resource: Tasks or actions that can be related to a single point or interval of time in the future.',
