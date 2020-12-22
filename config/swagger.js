@@ -36,16 +36,6 @@ const swaggerSpecs = {
 	},
 	tags: [
 		{
-			name: 'Intray',
-			description:
-				'Primary resource: An intray item is the equivalent to the later-action. It reaches the end of its lifecycle as soon as it is classified by a user to one of the other resource types.',
-		},
-		{
-			name: 'Information',
-			description:
-				'Primary resource: Informaiton items are not related to any action or appointment, but include knowledge for a later usage.',
-		},
-		{
 			name: 'Waiting for',
 			description: 'Primary resource: Delegated tasks, in case oneself is not the right person for the job.',
 		},

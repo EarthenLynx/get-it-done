@@ -31,6 +31,11 @@ components:
           description: Moment.js timestamp of when information item has been changed last.
           example: "Moment<2020-12-21T13:01:42+01:00>"
 
+# Tag
+tags:
+  name: Information
+  description: Primary resource. Informaiton items are not related to any action or appointment, but include knowledge for a later usage.
+
 # Information endpoint: No params
 /api/v1/information:
   post:

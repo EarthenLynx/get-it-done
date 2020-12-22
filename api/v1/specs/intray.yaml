@@ -38,6 +38,9 @@ components:
           type: boolean
           description: Whether the intray item is still valid or not
           example: "true"
+tags:
+  name: Intray
+  description: Primary resource. An intray item is the equivalent to the later-action. It reaches the end of its lifecycle as soon as it is classified by a user to one of the other resource types.
 
 # Intray endpoint: No params
 /api/v1/intray:
