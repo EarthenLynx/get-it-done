@@ -1,0 +1,269 @@
+# This document is used to describe the /calender path.
+# It contains the data schema, as well as the endpoints
+# It should be changed whenever the returned structure changes as well.
+components:
+  schemas:
+    Calender:
+      type: object
+      properties:
+        calenderId:
+          type: string
+          description: The auto-generated uuid of the calender item.
+          example: "879127udh12f23"
+        userId:
+          type: string
+          description: The uuid of the user who owns the item.
+          example: "f1298fh2378f2"
+        title:
+          type: string
+          description: Title of the calender item.
+          example: "Wash the dishes"
+        description:
+          type: string
+          description: A description of the calender item.
+          example: "Clean up the dishes left from yesterday evening"
+        created:
+          type: date
+          description: Moment.js timestamp of when the calender item has been created.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        changed:
+          type: date
+          description: Moment.js timestamp of when calender item has been changed last.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        followup:
+          type: date
+          description: Moment.js timestamp of when calender item takes place.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        purpose:
+          type: string
+          description: Summarizes what the calender items stands for
+          example: One of either 'event' or 'appointment'
+
+tags:
+  name: Calender
+  description: Primary resource. Tasks or actions that can be related to a single point or interval of time in the future.
+
+# Calender endpoint: No params
+/api/v1/calender:
+  post:
+    summary: Creates a new calender item. The userId property is taken from the user's json webtoken, the timestamps are created automatically
+    operationId: handleCreateCalender
+    tags: [Calender]
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a new calender item. If other parameters from the calender model are provided, they will be overwritten
+      required: true,
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the calender item.
+                example: "Wash the dishes"
+              description:
+                type: string
+                description: A description of the calender item.
+                example: "Clean up the dishes left from yesterday evening"
+              followup:
+                type: date
+                description: Moment.js timestamp of when calender item should be reviewed.
+                example: "Moment<2020-12-21T13:01:42+01:00>"
+              purpose:
+                type: string
+                description: Summarizes what the calender items stands for
+                example: "event"
+    responses:
+      200:
+        description: Returns an `object` representing the created calender item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Calender"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Calender endpoint: User ID path
+api/v1/calender/{userId}:
+  get:
+    summary: Returns a list of all calender items for a specific user. userId defaults to the userId extracted from the json webtoken.
+    operationId: handleGetCalenderByUserId
+    tags: [Calender]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: false
+        description: Unique ID of the user for which calender items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
+      - in: query
+        name: q
+        schema:
+          type: string
+        required: false
+        description: Query the title and description for a specific substring. If it appears in one of these, it will be part of the returned array.
+      - in: query
+        name: purpose
+        schema:
+          type: string
+        required: false
+        description: One of either 'event' or 'appointment'. If specified, only the calender items with the specific purpose are returned.
+      - in: query
+        name: onlyUpcoming
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, only events that lie in the future will be returned
+
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of calender items
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Calender"
+      404:
+        description: Returns an `object` describing that the calender item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Calender endpoint: Calender ID path
+/api/v1/calender/{calenderId}:
+  get:
+    summary: Returns a single calender item by its id
+    operationId: handleGetCalenderByCalenderId
+    tags: [Calender]
+    parameters:
+      - in: path
+        name: calenderId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the calender item which should be returned
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns the called calender item as a json object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Calender"
+      404:
+        description: Returns an `object` describing that the calender item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  put:
+    summary: Update a single calender item by its id
+    operationId: handleUpdateCalenderByCalenderId
+    tags: [Calender]
+    parameters:
+      - in: path
+        name: calenderId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the calender item which should be updated
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Payload to update a calender item.
+      required: true,
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the calender item.
+                example: "Wash the dishes"
+              description:
+                type: string
+                description: A description of the calender item.
+                example: "Clean up the dishes left from yesterday evening"
+              followup:
+                type: date
+                description: Moment.js timestamp of when calender item should be reviewed.
+                example: "Moment<2020-12-21T13:01:42+01:00>"
+              purpose:
+                type: string
+                description: Summarizes what the calender items stands for
+                example: One of either 'event' or 'appointment'
+    responses:
+      200:
+        description: Returns an `object` representing the updated calender item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Calender"
+      404:
+        description: Returns an `object` describing that the calender item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Delete a single calender item by its id
+    operationId: handleDeleteCalenderByInstrayId
+    tags: [Calender]
+    parameters:
+      - in: path
+        name: calenderId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the calender item which should be deleted
+    produces:
+      - application/json
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the calender item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
