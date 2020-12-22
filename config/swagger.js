@@ -15,7 +15,28 @@ const swaggerSpecs = {
 			title: 'Get it done REST API service',
 			version: '1.0.0',
 			description:
-				'Get it done API provides an interface to connect to your workspace from other apps. The application\'s approach follows a workflow that embraces the "Keep it simple, stupid" paradigm, while offering enough space to customize actions, if necessary',
+				'Get it done API provides an interface to connect' +
+				' to your workspace from other frontends. The application' +
+				' follows a workflow that embraces the paradigm from' +
+				' David Allen\'s book \'Gettings things done\'.' +
+				' The idea is that you will always start with a single' +
+				' `intray item`, which includes nothing but a title and a' +
+				' description. Depending on how you categorize it, more' +
+				' properties become available as other resources are' +
+				' created. Each of these has a dedicated endpoint to' +
+				' allow a maximum of flexibility. Also, all models are' +
+				' built in a way that makes them easy to convert from' +
+				' one to the other, while keeping the core information' +
+				' intact. There is a distinction between primary and' +
+				' secondary resources, where the first are the items' +
+				' described in the book and the secondaries are' +
+				' helpers, which are valid on a global scale. That,' +
+				' however, means, that if this application is used for' +
+				' collaborative purposes, each team should maintain their' +
+				' dedicated version of it, as \'Get it done\' is not meant' +
+				' for whole departments, but at its maximum for small,' +
+				' fast pacing teams.',
+
 			license: {
 				name: 'MIT',
 				url: 'https://spdx.org/licenses/MIT.html',
@@ -89,7 +110,7 @@ const swaggerSpecs = {
 		'./api/v1/specs/projects.yaml',
 
 		/* Secondary resources */
-		'./api/v1/specs/actionLists.yaml',
+		'./api/v1/specs/lists.yaml',
 		'./api/v1/specs/operators.yaml',
 		'./api/v1/specs/users.yaml',
 		'./api/v1/specs/auth.yaml',
@@ -98,7 +119,7 @@ const swaggerSpecs = {
 		'./api/v1/specs/clients.yaml',
 
 		/* Exception resources */
-		'./api/v1/specs/exceptions.yaml'
+		'./api/v1/specs/exceptions.yaml',
 	],
 };
 

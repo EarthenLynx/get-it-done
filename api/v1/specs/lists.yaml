@@ -1,0 +1,163 @@
+# This document is used to describe the /list path.
+# It contains the data schema, as well as the endpoints
+# It should be changed whenever the returned structure changes as well.
+components:
+  schemas:
+    List:
+      type: object
+      properties:
+        listId:
+          type: string
+          description: The auto-generated uuid of the list item.
+          example: "879127udh12f23"
+        title:
+          type: string
+          description: Title of the list item.
+          example: "Household"
+        description:
+          type: string
+          description: A description of the list item.
+          example: "All tasks that are related to householdwork, like buying groceries, walk the dog, feed the fish, ..."
+
+tags:
+  name: List
+  description: Secondary resource. A list item helps to categorize next actions and counters the idea of having only a single todo list.
+
+# List endpoint: User ID path
+api/v1/list:
+  get:
+    summary: Returns all maintained lists. The resulting array's items can be used to categorize actions.
+    operationId: handleGetLists
+    tags: [List]
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of list items
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/List"
+        # TODO: Check back if this link's operation ID is still valid
+        links:
+          handleCreateAction:
+            description: The listId - value returned in the response can be used to categorize an action in `POST /action/{actionId}/` or `PUT /action/{actionId}/`
+            operationId: handleCreateAction
+            parameters: $response.body#/listId
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  post:
+    summary: Create a new list item.
+    operationId: handleCreateList
+    tags: [List]
+    produces:
+      - application/json
+    consumes:
+      - application/json
+    requestBody:
+      title:
+        type: string
+        description: Title of the list item.
+        example: "Household"
+      description:
+        type: string
+        description: A description of the list item.
+        example: "All tasks that are related to household"
+    responses:
+      200:
+        description: Returns an `object` representing the created list item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/List"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# List endpoint: List ID path
+/api/v1/list/{listId}:
+  put:
+    summary: Update a single list item by its id
+    operationId: handleUpdateListByListId
+    tags: [List]
+    parameters:
+      - in: path
+        name: listId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the list item which should be updated
+    produces:
+      - application/json
+    requestBody:
+      description: Updates a list item by its id
+      required: true,
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the list item.
+                example: "Household"
+              description:
+                type: string
+                description: A description of the list item.
+                example: "All tasks that are related to household, as well as to other things at home, like buying groceries, walk the dog, feed the fish, ..."
+    responses:
+      200:
+        description: Returns an `object` representing the updated list item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/List"
+      404:
+        description: Returns an `object` describing that the list item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Delete a single list item by its id
+    operationId: handleDeleteListByListId
+    tags: [List]
+    parameters:
+      - in: path
+        name: listId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the list item which should be deleted
+    produces:
+      - application/json
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the list item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"

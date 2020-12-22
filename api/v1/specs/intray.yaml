@@ -40,7 +40,7 @@ components:
           example: "true"
 tags:
   name: Intray
-  description: Primary resource. An intray item is the equivalent to the later-action. It reaches the end of its lifecycle as soon as it is classified by a user to one of the other resource types.
+  description: Primary resource. An intray item is the equivalent to the later-action, given a follow-up date is maintained. It reaches the end of its lifecycle as soon as it is classified by a user to one of the other resource types.
 
 # Intray endpoint: No params
 /api/v1/intray:
@@ -234,7 +234,7 @@ api/v1/intray/{userId}:
               $ref: "#/components/schemas/InternalErrorException"
   delete:
     summary: Delete a single intray item by its id
-    operationId: handleDeleteIntrayByInstrayId
+    operationId: handleDeleteIntrayByIntrayId
     tags: [Intray]
     parameters:
       - in: path
