@@ -73,8 +73,8 @@ tags:
                 description: Moment.js timestamp of when intray item should be reviewed.
                 example: "Moment<2020-12-21T13:01:42+01:00>"
     responses:
-      200:
-        description: Returns the created intray item
+      201:
+        description: Returns an `object` representing the created intray item.
         content:
           application/json:
             schema:
@@ -122,7 +122,7 @@ api/v1/intray/{userId}:
       - application/json
     responses:
       200:
-        description: Returns the collection of intray items as a json array
+        description: Returns an `array` of intray items for the specified user id
         content:
           application/json:
             schema:
@@ -154,7 +154,7 @@ api/v1/intray/{userId}:
         schema:
           type: string
         required: true
-        description: Unique ID of the intray item which should be returned
+        description: Unique ID of the intray item which should be returned.
     produces:
       - application/json
     responses:
@@ -165,13 +165,13 @@ api/v1/intray/{userId}:
             schema:
               $ref: "#/components/schemas/Intray"
       404:
-        description: Returns an `object` describing that the intray item was not found
+        description: Returns an `object` describing that no intray item was found.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/NotFoundException"
       500:
-        description: Returns an `object` describing the unexpected server error that occured
+        description: Returns an `object` describing the unexpected server error that occured.
         content:
           application/json:
             schema:
@@ -189,6 +189,30 @@ api/v1/intray/{userId}:
         description: Unique ID of the intray item which should be updated
     produces:
       - application/json
+    requestBody:
+      description: Creates a new intray item. If other parameters from the intray model are provided, they will be overwritten
+      required: true,
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the intray item.
+                example: "Wash the dishes"
+              description:
+                type: string
+                description: A description of the intray item.
+                example: "Clean up the dishes left from yesterday evening"
+              followup:
+                type: date
+                description: Moment.js timestamp of when intray item should be reviewed.
+                example: "Moment<2020-12-21T13:01:42+01:00>"
+              done:
+                type: boolean
+                description: Whether the intray item is still valid or not
+                example: "true"
     responses:
       200:
         description: Returns an `object` representing the updated intray item
