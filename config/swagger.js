@@ -36,11 +36,6 @@ const swaggerSpecs = {
 	},
 	tags: [
 		{
-			name: 'Calender',
-			description:
-				'Primary resource: Tasks or actions that can be related to a single point or interval of time in the future.',
-		},
-		{
 			name: 'Next action',
 			description: 'Primary resource: Tasks or actions that should be done next.',
 		},

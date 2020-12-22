@@ -159,7 +159,7 @@ api/v1/intray/{userId}:
       - application/json
     responses:
       200:
-        description: Returns the called intray item as a json object
+        description: Returns an `object` representing the called intray item
         content:
           application/json:
             schema:
