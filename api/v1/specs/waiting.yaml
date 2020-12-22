@@ -208,8 +208,38 @@ api/v1/waiting/{userId}:
           type: string
         required: true
         description: Unique ID of the waiting item which should be updated
+    consumes:
+      - application/json
     produces:
       - application/json
+    requestBody:
+      description: Creates a new waiting item. If other parameters from the waiting model are provided, they will be overwritten
+      required: true,
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the waiting item.
+                example: "Wash the dishes"
+              description:
+                type: string
+                description: A description of the waiting item.
+                example: "Clean up the dishes left from yesterday evening"
+              followup:
+                type: date
+                description: Moment.js timestamp of when waiting item should be reviewed.
+                example: "Moment<2020-12-21T13:01:42+01:00>"
+              operator:
+                type: string
+                description: The id of the operator who is working on the task
+                example: 872hf8123
+              reminder:
+                type: boolean
+                description: Whether or not to send an automatic reminder on the followup date
+                example: true
     responses:
       200:
         description: Returns an `object` representing the updated waiting item
