@@ -1,0 +1,320 @@
+# This document is used to describe the /waiting path.
+# It contains the data schema, as well as the endpoints
+# It should be changed whenever the returned structure changes as well.
+components:
+  schemas:
+    Waiting:
+      type: object
+      properties:
+        waitingId:
+          type: string
+          description: The auto-generated uuid of the waiting item.
+          example: "879127udh12f23"
+        userId:
+          type: string
+          description: The uuid of the user who owns the item.
+          example: "f1298fh2378f2"
+        title:
+          type: string
+          description: Title of the waiting item.
+          example: "Wash the dishes"
+        description:
+          type: string
+          description: A description of the waiting item.
+          example: "Clean up the dishes left from yesterday evening"
+        created:
+          type: date
+          description: Moment.js timestamp of when the waiting item has been created.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        changed:
+          type: date
+          description: Moment.js timestamp of when waiting item has been changed last.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        followup:
+          type: date
+          description: Moment.js timestamp of when waiting item should be reviewed.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        operator:
+          type: string
+          description: The id of the operator who is working on the task
+          example: 872hf8123
+        reminder:
+          type: boolean
+          description: Whether or not to send an automatic reminder on the followup date
+          example: true
+        done:
+          type: boolean
+          description: Whether the waiting item is still valid or not
+          example: "true"
+tags:
+  name: Waiting
+  description: Primary resource. Delegated tasks, in case oneself is not the right person for the job.
+
+# Waiting endpoint: No params
+/api/v1/waiting:
+  post:
+    summary: Creates a new waiting item. The userId property is taken from the user's json webtoken, the timestamps are created automatically
+    operationId: handleCreateWaiting
+    tags: [Waiting]
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a new waiting item. If other parameters from the waiting model are provided, they will be overwritten
+      required: true,
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the waiting item.
+                example: "Wash the dishes"
+              description:
+                type: string
+                description: A description of the waiting item.
+                example: "Clean up the dishes left from yesterday evening"
+              followup:
+                type: date
+                description: Moment.js timestamp of when waiting item should be reviewed.
+                example: "Moment<2020-12-21T13:01:42+01:00>"
+              operator:
+                type: string
+                description: The id of the operator who is working on the task
+                example: 872hf8123
+              reminder:
+                type: boolean
+                description: Whether or not to send an automatic reminder on the followup date
+                example: true
+    responses:
+      200:
+        description: Returns the created waiting item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Waiting"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Waiting endpoint: User ID path
+api/v1/waiting/{userId}:
+  get:
+    summary: Returns a list of all waiting items for a specific user. userId defaults to the userId extracted from the json webtoken.
+    operationId: handleGetWaitingByUserId
+    tags: [Waiting]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: false
+        description: Unique ID of the user for which waiting items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
+      - in: query
+        name: q
+        schema:
+          type: string
+        required: false
+        description: Query the title and description for a specific substring. If it appears in one of these, it will be part of the returned array.
+      - in: query
+        name: done
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only items marked as done. If set to false, only items marked as pending.
+      - in: query
+        name: operator
+        schema:
+          type: string
+        required: false
+        description: Query for the operator who is working on the task
+      - in: query
+        name: overdue
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only waiting items which have a followup date that's in the past.
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns the collection of waiting items as a `json array`
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Waiting"
+      404:
+        description: Returns an `object` describing that the waiting item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Waiting endpoint: Waiting ID path
+/api/v1/waiting/{waitingId}:
+  get:
+    summary: Returns a single waiting item by its id
+    operationId: handleGetWaitingByWaitingId
+    tags: [Waiting]
+    parameters:
+      - in: path
+        name: waitingId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the waiting item which should be returned
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `object` descripting the called waiting item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Waiting"
+      404:
+        description: Returns an `object` describing that the waiting item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  put:
+    summary: Update a single waiting item by its id
+    operationId: handleUpdateWaitingByWaitingId
+    tags: [Waiting]
+    parameters:
+      - in: path
+        name: waitingId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the waiting item which should be updated
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `object` representing the updated waiting item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Waiting"
+      404:
+        description: Returns an `object` describing that the waiting item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Delete a single waiting item by its id
+    operationId: handleDeleteWaitingByInstrayId
+    tags: [Waiting]
+    parameters:
+      - in: path
+        name: waitingId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the waiting item which should be deleted
+    produces:
+      - application/json
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the waiting item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Waiting endpoint: Operator ID path
+api/v1/waiting/{operatorId}:
+  get:
+    summary: Returns a list of all waiting items for a specific operator.
+    operationId: handleGetWaitingByOperatorId
+    tags: [Waiting]
+    parameters:
+      - in: path
+        name: operatorId
+        schema:
+          type: string
+        required: false
+        description: Unique ID of the user for which waiting items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
+      - in: query
+        name: q
+        schema:
+          type: string
+        required: false
+        description: Query the title and description for a specific substring. If it appears in one of these, it will be part of the returned array.
+      - in: query
+        name: done
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only items marked as done. If set to false, only items marked as pending.
+      - in: query
+        name: operator
+        schema:
+          type: string
+        required: false
+        description: Query for the operator who is working on the task
+      - in: query
+        name: overdue
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only waiting items which have a followup date that's in the past.
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns the collection of waiting items as a `json array`
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Waiting"
+      404:
+        description: Returns an `object` describing that the waiting item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"

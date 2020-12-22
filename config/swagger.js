@@ -88,7 +88,7 @@ const swaggerSpecs = {
 		/* Primary resources */
 		'./api/v1/specs/intray.yaml',
 		'./api/v1/specs/information.yaml',
-		'./api/v1/specs/waitingFor.yaml',
+		'./api/v1/specs/waiting.yaml',
 		'./api/v1/specs/calender.yaml',
 		'./api/v1/specs/nextAction.yaml',
 		'./api/v1/specs/projects.yaml',
