@@ -204,7 +204,7 @@ api/v1/information/{userId}:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
   delete:
-    summary: Delete a single information item by its id
+    summary: Delete a single information item by its ID
     operationId: handleDeleteInformationByInformationId
     tags: [Information]
     parameters:
@@ -214,8 +214,6 @@ api/v1/information/{userId}:
           type: string
         required: true
         description: Unique ID of the information item which should be deleted
-    produces:
-      - application/json
     responses:
       204:
         description: Returns an empty `string` with status code 204 'no content'

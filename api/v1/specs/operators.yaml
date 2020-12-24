@@ -1,0 +1,180 @@
+components:
+  schemas:
+    Operator:
+      type: object
+      properties:
+        operatorId:
+          type: string
+          description: The auto-generated uuid of the operator
+          example: "198d2178f23h"
+        operatorName:
+          type: string
+          description: The full name of the operator
+          example: "John Doe"
+        operatorMail:
+          type: string
+          description: The email adress of the operator
+          example: "John@doe.com"
+
+tags:
+  name: Operator
+  description: Secondary resource. An operator is a person to which one can delegate intray items instead of categorizing it as a next action item
+
+# Operator endpoint:
+api/v1/operator:
+  get:
+    summary: Returns all maintained operators. The q - parameter can be used to refine the search.
+    operationId: handleGetOperators
+    tags: [Operator]
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Queries the database for operatorName which includes a substring of the query that's been passed
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of operators
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Operator"
+        links:
+          Assign a waiting item:
+            description: The operatorId - value returned in the response can be used to categorize a waiting item in `/waiting/{waitingId}`
+            operationId: handleCreateWaiting
+            parameters:
+              "...": "..."
+              operatorId: "198d2178f23h"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  post:
+    summary: Create a new operator. An operator is somebody who does the 'waiting' - items.
+    operationId: handleCreateOperator
+    tags: [Operator]
+    consumes: application/json
+    produces: application/json
+    requestBody:
+      description: Creates a new operator item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              operatorId:
+                type: string
+                description: The auto-generated uuid of the operator
+                example: "198d2178f23h"
+              operatorName:
+                type: string
+                description: The full name of the operator
+                example: "John Doe"
+              operatorMail:
+                type: string
+                description: The email adress of the operator
+                example: "John@doe.com"
+    responses:
+      200:
+        description: Returns an `object` representing the created operator
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Operator"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Operator endpoint:
+api/v1/operator/{operatorId}:
+  put:
+    summary: Updates a single operator based on its ID.
+    operationId: handleUpdateOperatorByOperatorId
+    tags: [Operator]
+    parameters:
+      - in: path
+        name: operatorId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the operator for which the entry data should be updated
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Update an existing operator item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              operatorName:
+                type: string
+                description: The full name of the operator
+                example: "John Doe"
+              operatorMail:
+                type: string
+                description: The email adress of the operator
+                example: "John@doe.com"
+    responses:
+      200:
+        description: Returns an `object` representing the updated operator
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Operator"
+      404:
+        description: Returns an `object` describing that the operator was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Deletes a single operator based on its ID.
+    operationId: handleDeleteOperatorByOperatorId
+    tags: [Operator]
+    parameters:
+      - in: path
+        name: operatorId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the operator which should be deleted
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the operator was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
