@@ -1,0 +1,410 @@
+# This document is used to describe the /action path.
+# It contains the data schema, as well as the endpoints
+# It should be changed whenever the returned structure changes as well.
+components:
+  schemas:
+    Action:
+      type: object
+      properties:
+        actionId:
+          type: string
+          description: The auto-generated uuid of the action item.
+          example: "879127udh12f23"
+        userId:
+          type: string
+          description: The uuid of the user who owns the item.
+          example: "f1298fh2378f2"
+        title:
+          type: string
+          description: Title of the action item.
+          example: "Wash the dishes"
+        description:
+          type: string
+          description: A description of the action item.
+          example: "Clean up the dishes left from yesterday evening"
+        created:
+          type: date
+          description: Moment.js timestamp of when the action item has been created.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        changed:
+          type: date
+          description: Moment.js timestamp of when action item has been changed last.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        followup:
+          type: date
+          description: Moment.js timestamp of when action item should be reviewed.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+        projectId:
+          type: string
+          description: The unique project ID to which this action belongs. Empty if action belongs to none.
+          example: "89741298hf13fg782g3ff"
+        clientId:
+          type: string
+          description: The unique client it to which this action belongs. Empty if action cannot be classified for one.
+          example: "nmfn1872r173h"
+        #  TODO: Add effort items here
+        # efforts:
+        #   type: array
+        #   items:
+        #     $ref: "#/components/schemas/Efforts"
+        #  TODO: Add logs here
+        done:
+          type: boolean
+          description: Whether the action item is still valid or not
+          example: "true"
+    Efforts:
+      type: object
+      properties:
+        effortId:
+          type: string
+          description: The id of the time interval that's been spent on a particular next action.
+          example: "217hf2378f"
+        value:
+          type: number
+          description: The count of seconds spent on a time interval spent on a particular next action.
+        notes:
+          type: string
+          description: Notes for this time interval. Effort notes are kept separately from logs
+
+tags:
+  name: Action
+  description: Primary resource. An action item is a single task a user can do. If an action includes more than one action, it should rather be classified as a project, with all substeps being broken down into actual next action items.
+
+# Action endpoint: No params
+/api/v1/action:
+  post:
+    summary: Creates a new action item. The userId property is taken from the user's json webtoken, the timestamps are created automatically
+    operationId: handleCreateAction
+    tags: [Action]
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a new action item. If other parameters from the action model are provided, they will be overwritten
+      required: true,
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the action item.
+                example: "Wash the dishes"
+              description:
+                type: string
+                description: A description of the action item.
+                example: "Clean up the dishes left from yesterday evening"
+              followup:
+                type: date
+                description: Moment.js timestamp of when action item should be reviewed.
+                example: "Moment<2020-12-21T13:01:42+01:00>"
+              projectId:
+                type: string
+                description: The unique project ID to which this action belongs. Empty if action belongs to none.
+                example: "89741298hf13fg782g3ff"
+              clientId:
+                type: string
+                description: The unique client it to which this action belongs. Empty if action cannot be classified for one.
+                example: "nmfn1872r173h"
+    responses:
+      201:
+        description: Returns an `object` representing the created action item.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Action"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Action endpoint: User ID path
+api/v1/action/{userId}:
+  get:
+    summary: Returns a list of all action items for a specific user. userId defaults to the userId extracted from the json webtoken.
+    operationId: handleGetActionByUserId
+    tags: [Action]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: false
+        description: Unique ID of the user for which action items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
+      - in: query
+        name: q
+        schema:
+          type: string
+        required: false
+        description: Query the title and description for a specific substring. If it appears in one of these, it will be part of the returned array.
+      - in: query
+        name: done
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only items marked as done. If set to false, only items marked as pending.
+      - in: query
+        name: overdue
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only action items which have a followup date that's in the past.
+
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of action items for the specified user id
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Action"
+      404:
+        description: Returns an `object` describing that the action item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Action endpoint: Action ID path
+/api/v1/action/{actionId}:
+  get:
+    summary: Returns a single action item by its id
+    operationId: handleGetActionByActionId
+    tags: [Action]
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the action item which should be returned.
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `object` representing the called action item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Action"
+      404:
+        description: Returns an `object` describing that no action item was found.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  put:
+    summary: Update a single action item by its id
+    operationId: handleUpdateActionByActionId
+    tags: [Action]
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the action item which should be updated
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a new action item. If other parameters from the action model are provided, they will be overwritten
+      required: true,
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the action item.
+                example: "Wash the dishes"
+              description:
+                type: string
+                description: A description of the action item.
+                example: "Clean up the dishes left from yesterday evening"
+              followup:
+                type: date
+                description: Moment.js timestamp of when action item should be reviewed.
+                example: "Moment<2020-12-21T13:01:42+01:00>"
+              done:
+                type: boolean
+                description: Whether the action item is still valid or not
+                example: "true"
+    responses:
+      200:
+        description: Returns an `object` representing the updated action item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Action"
+      404:
+        description: Returns an `object` describing that the action item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Delete a single action item by its id
+    operationId: handleDeleteActionByActionId
+    tags: [Action]
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the action item which should be deleted
+    produces:
+      - application/json
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the action item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Action endpoint: Project ID path
+api/v1/action/{projectId}:
+  get:
+    summary: Returns an list of all action items for a specific project.
+    operationId: handleGetActionByProjectId
+    tags: [Action]
+    parameters:
+      - in: path
+        name: projectId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the project for which action items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
+      - in: query
+        name: q
+        schema:
+          type: string
+        required: false
+        description: Query the title and description for a specific substring. If it appears in one of these, it will be part of the returned array.
+      - in: query
+        name: done
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only items marked as done. If set to false, only items marked as pending.
+      - in: query
+        name: overdue
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only action items which have a followup date that's in the past.
+
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of action items for the specified project id
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Action"
+      404:
+        description: Returns an `object` describing that the action item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Action endpoint: Client ID path
+api/v1/action/{clientId}:
+  get:
+    summary: Returns an list of all action items for a specific client.
+    operationId: handleGetActionByProjectId
+    tags: [Action]
+    parameters:
+      - in: path
+        name: projectId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the project for which action items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
+      - in: query
+        name: q
+        schema:
+          type: string
+        required: false
+        description: Query the title and description for a specific substring. If it appears in one of these, it will be part of the returned array.
+      - in: query
+        name: done
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only items marked as done. If set to false, only items marked as pending.
+      - in: query
+        name: overdue
+        schema:
+          type: boolean
+        required: false
+        description: If set to true, the response will contain only action items which have a followup date that's in the past.
+
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of action items for the specified project id
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Action"
+      404:
+        description: Returns an `object` describing that the action item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
