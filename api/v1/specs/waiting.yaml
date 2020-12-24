@@ -38,6 +38,10 @@ components:
           type: string
           description: The id of the operator who is working on the task
           example: 872hf8123
+        projectId:
+          type: string
+          description: The unique project ID to which this action belongs. Empty if action belongs to none.
+          example: "89741298hf13fg782g3ff"
         reminder:
           type: boolean
           description: Whether or not to send an automatic reminder on the followup date
