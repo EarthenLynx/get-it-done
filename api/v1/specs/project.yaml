@@ -1,14 +1,14 @@
-# This document is used to describe the /intray path.
+# This document is used to describe the /project path.
 # It contains the data schema, as well as the endpoints
 # It should be changed whenever the returned structure changes as well.
 components:
   schemas:
-    Intray:
+    Project:
       type: object
       properties:
-        intrayId:
+        projectId:
           type: string
-          description: The auto-generated uuid of the intray item.
+          description: The auto-generated uuid of the project item.
           example: "879127udh12f23"
         userId:
           type: string
@@ -16,45 +16,44 @@ components:
           example: "f1298fh2378f2"
         title:
           type: string
-          description: Title of the intray item.
-          example: "Wash the dishes"
+          description: Title of the project item.
+          example: "Clean up the kitchen"
         description:
           type: string
-          description: A description of the intray item.
+          description: A description of the project item.
           example: "Clean up the dishes left from yesterday evening"
         created:
           type: date
-          description: Moment.js timestamp of when the intray item has been created.
+          description: Moment.js timestamp of when the project item has been created.
           example: "Moment<2020-12-21T13:01:42+01:00>"
         changed:
           type: date
-          description: Moment.js timestamp of when intray item has been changed last.
+          description: Moment.js timestamp of when project item has been changed last.
           example: "Moment<2020-12-21T13:01:42+01:00>"
         followup:
           type: date
-          description: Moment.js timestamp of when intray item should be reviewed.
+          description: Moment.js timestamp of when project item should be reviewed.
           example: "Moment<2020-12-21T13:01:42+01:00>"
-        #  TODO: Add logs here
         done:
           type: boolean
-          description: Whether the intray item is still valid or not
+          description: Whether the project item is still valid or not.
           example: "true"
 tags:
-  name: Intray
-  description: Primary resource. An intray item is the equivalent to the later-action, given a follow-up date is maintained. It reaches the end of its lifecycle as soon as it is classified by a user to one of the other resource types.
+  name: Project
+  description: Primary resource. A project is a collection of several tasks, the own ones and the delegated.
 
-# Intray endpoint: No params
-/api/v1/intray:
+# Project endpoint: No params
+/api/v1/project:
   post:
-    summary: Creates a new intray item. The userId property is taken from the user's json webtoken, the timestamps are created automatically
-    operationId: handleCreateIntray
-    tags: [Intray]
+    summary: Creates a new project item. The userId property is taken from the user's json webtoken, the timestamps are created automatically
+    operationId: handleCreateProject
+    tags: [Project]
     consumes:
       - application/json
     produces:
       - application/json
     requestBody:
-      description: Creates a new intray item. If other parameters from the intray model are provided, they will be overwritten
+      description: Creates a new project item. If other parameters from the project model are provided, they will be overwritten
       required: true,
       content:
         application/json:
@@ -63,23 +62,23 @@ tags:
             properties:
               title:
                 type: string
-                description: Title of the intray item.
+                description: Title of the project item.
                 example: "Wash the dishes"
               description:
                 type: string
-                description: A description of the intray item.
+                description: A description of the project item.
                 example: "Clean up the dishes left from yesterday evening"
               followup:
                 type: date
-                description: Moment.js timestamp of when intray item should be reviewed.
+                description: Moment.js timestamp of when project item should be reviewed.
                 example: "Moment<2020-12-21T13:01:42+01:00>"
     responses:
       201:
-        description: Returns an `object` representing the created intray item.
+        description: Returns an `object` representing the created project item.
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Intray"
+              $ref: "#/components/schemas/Project"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -87,19 +86,19 @@ tags:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
 
-# Intray endpoint: User ID path
-api/v1/intray/{userId}:
+# Project endpoint: User ID path
+api/v1/project/{userId}:
   get:
-    summary: Returns a list of all intray items for a specific user. userId defaults to the userId extracted from the json webtoken.
-    operationId: handleGetIntrayByUserId
-    tags: [Intray]
+    summary: Returns a list of all project items for a specific user. userId defaults to the userId extracted from the json webtoken.
+    operationId: handleGetProjectByUserId
+    tags: [Project]
     parameters:
       - in: path
         name: userId
         schema:
           type: string
         required: false
-        description: Unique ID of the user for which intray items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
+        description: Unique ID of the user for which project items should be returned. If it differs from the userId in the json webtoken, it will be overwritten.
       - in: query
         name: q
         schema:
@@ -117,21 +116,21 @@ api/v1/intray/{userId}:
         schema:
           type: boolean
         required: false
-        description: If set to true, the response will contain only intray items which have a followup date that's in the past.
+        description: If set to true, the response will contain only project items which have a followup date that's in the past.
 
     produces:
       - application/json
     responses:
       200:
-        description: Returns an `array` of intray items for the specified user id
+        description: Returns an `array` of project items for the specified user id
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/Intray"
+                $ref: "#/components/schemas/Project"
       404:
-        description: Returns an `object` describing that the intray item was not found
+        description: Returns an `object` describing that the project item was not found
         content:
           application/json:
             schema:
@@ -143,30 +142,30 @@ api/v1/intray/{userId}:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
 
-# Intray endpoint: Intray ID path
-/api/v1/intray/{intrayId}:
+# Project endpoint: Project ID path
+/api/v1/project/{projectId}:
   get:
-    summary: Returns a single intray item by its id
-    operationId: handleGetIntrayByIntrayId
-    tags: [Intray]
+    summary: Returns a single project item by its id
+    operationId: handleGetProjectByProjectId
+    tags: [Project]
     parameters:
       - in: path
-        name: intrayId
+        name: projectId
         schema:
           type: string
         required: true
-        description: Unique ID of the intray item which should be returned.
+        description: Unique ID of the project item which should be returned.
     produces:
       - application/json
     responses:
       200:
-        description: Returns an `object` representing the called intray item
+        description: Returns an `object` representing the called project item
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Intray"
+              $ref: "#/components/schemas/Project"
       404:
-        description: Returns an `object` describing that no intray item was found.
+        description: Returns an `object` describing that no project item was found.
         content:
           application/json:
             schema:
@@ -178,20 +177,20 @@ api/v1/intray/{userId}:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
   put:
-    summary: Update a single intray item by its id
-    operationId: handleUpdateIntrayByIntrayId
-    tags: [Intray]
+    summary: Update a single project item by its id
+    operationId: handleUpdateProjectByProjectId
+    tags: [Project]
     parameters:
       - in: path
-        name: intrayId
+        name: projectId
         schema:
           type: string
         required: true
-        description: Unique ID of the intray item which should be updated
+        description: Unique ID of the project item which should be updated
     produces:
       - application/json
     requestBody:
-      description: Creates a new intray item. If other parameters from the intray model are provided, they will be overwritten
+      description: Creates a new project item. If other parameters from the project model are provided, they will be overwritten
       required: true,
       content:
         application/json:
@@ -200,29 +199,29 @@ api/v1/intray/{userId}:
             properties:
               title:
                 type: string
-                description: Title of the intray item.
+                description: Title of the project item.
                 example: "Wash the dishes"
               description:
                 type: string
-                description: A description of the intray item.
+                description: A description of the project item.
                 example: "Clean up the dishes left from yesterday evening"
               followup:
                 type: date
-                description: Moment.js timestamp of when intray item should be reviewed.
+                description: Moment.js timestamp of when project item should be reviewed.
                 example: "Moment<2020-12-21T13:01:42+01:00>"
               done:
                 type: boolean
-                description: Whether the intray item is still valid or not
+                description: Whether the project item is still valid or not
                 example: "true"
     responses:
       200:
-        description: Returns an `object` representing the updated intray item
+        description: Returns an `object` representing the updated project item
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Intray"
+              $ref: "#/components/schemas/Project"
       404:
-        description: Returns an `object` describing that the intray item was not found
+        description: Returns an `object` describing that the project item was not found
         content:
           application/json:
             schema:
@@ -234,23 +233,23 @@ api/v1/intray/{userId}:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
   delete:
-    summary: Delete a single intray item by its id
-    operationId: handleDeleteIntrayByIntrayId
-    tags: [Intray]
+    summary: Delete a single project item by its id
+    operationId: handleDeleteProjectByProjectId
+    tags: [Project]
     parameters:
       - in: path
-        name: intrayId
+        name: projectId
         schema:
           type: string
         required: true
-        description: Unique ID of the intray item which should be deleted
+        description: Unique ID of the project item which should be deleted
     produces:
       - application/json
     responses:
       204:
         description: Returns an empty `string` with status code 204 'no content'
       404:
-        description: Returns an `object` describing that the intray item was not found
+        description: Returns an `object` describing that the project item was not found
         content:
           application/json:
             schema:

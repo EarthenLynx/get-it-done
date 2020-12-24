@@ -27,15 +27,16 @@ const swaggerSpecs = {
 				' allow a maximum of flexibility. Also, all models are' +
 				' built in a way that makes them easy to convert from' +
 				' one to the other, while keeping the core information' +
+				', such as `title`, `description` and `next action date`,' +
 				' intact. There is a distinction between primary and' +
 				' secondary resources, where the first are the items' +
 				' described in the book and the secondaries are' +
 				' helpers, which are valid on a global scale. That,' +
 				' however, means, that if this application is used for' +
 				' collaborative purposes, each team should maintain their' +
-				' dedicated version of it, as \'Get it done\' is not meant' +
+				' dedicated version of it, as **\'Get it done\' is not meant' +
 				' for whole departments, but at its maximum for small,' +
-				' fast pacing teams.',
+				' fast pacing teams.**',
 
 			license: {
 				name: 'MIT',
@@ -106,8 +107,8 @@ const swaggerSpecs = {
 		'./api/v1/specs/information.yaml',
 		'./api/v1/specs/waiting.yaml',
 		'./api/v1/specs/calender.yaml',
-		'./api/v1/specs/nextAction.yaml',
-		'./api/v1/specs/projects.yaml',
+		'./api/v1/specs/action.yaml',
+		'./api/v1/specs/project.yaml',
 
 		/* Secondary resources */
 		'./api/v1/specs/lists.yaml',
