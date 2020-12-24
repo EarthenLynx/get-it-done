@@ -232,6 +232,10 @@ api/v1/waiting/{userId}:
                 type: date
                 description: Moment.js timestamp of when waiting item should be reviewed.
                 example: "Moment<2020-12-21T13:01:42+01:00>"
+              projectId:
+                type: string
+                description: The unique project ID to which this action belongs. Empty if action belongs to none.
+                example: "89741298hf13fg782g3ff"
               operator:
                 type: string
                 description: The id of the operator who is working on the task
