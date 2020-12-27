@@ -140,7 +140,6 @@ tags:
           application/json:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
-
   post:
     summary: Create a new log item for a particular action
     operationId: handleCreateLogByActionId

@@ -164,6 +164,17 @@ api/v1/project/{userId}:
           application/json:
             schema:
               $ref: "#/components/schemas/Project"
+        links:
+          Get logs for project item:
+            description: The projectId - value returned in the response can be used to find related log items in `/log/{actionId}`
+            operationId: handleGetLogsByActionId
+            parameters:
+              projectId: '879127udh12f23'
+          Create a new log item:
+            description: The projectId - value returned in the response can be used to create a new log item in `/log/{actionId}`
+            operationId: handleCreateLogByActionId
+            parameters:
+              projectId: '879127udh12f23'
       404:
         description: Returns an `object` describing that no project item was found.
         content:

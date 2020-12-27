@@ -200,6 +200,17 @@ api/v1/action/{userId}:
           application/json:
             schema:
               $ref: "#/components/schemas/Action"
+        links:
+          Get logs for action item:
+            description: The actionId - value returned in the response can be used to find related log items in `/log/{actionId}`
+            operationId: handleGetLogsByActionId
+            parameters:
+              actionId: '879127udh12f23'
+          Create a new log item:
+            description: The actionId - value returned in the response can be used to create a new log item in `/log/{actionId}`
+            operationId: handleCreateLogByActionId
+            parameters:
+              actionId: '879127udh12f23'
       404:
         description: Returns an `object` describing that no action item was found.
         content:
