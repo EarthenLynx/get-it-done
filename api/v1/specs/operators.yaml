@@ -44,11 +44,15 @@ api/v1/operator:
               items:
                 $ref: "#/components/schemas/Operator"
         links:
+          Query for waiting by operator id:
+            description: The operatorId - value returned in the response can be used to query for waiting items in `/waiting/{operatorId}`
+            operationId: handleGetWaitingByOperatorId
+            parameters:
+              operatorId: "198d2178f23h"
           Assign a waiting item:
             description: The operatorId - value returned in the response can be used to categorize a waiting item in `/waiting/{waitingId}`
             operationId: handleCreateWaiting
             parameters:
-              "...": "..."
               operatorId: "198d2178f23h"
       500:
         description: Returns an `object` describing the unexpected server error that occured
