@@ -1,0 +1,213 @@
+# This document is used to describe the /logs path.
+# It contains the data schema, as well as the endpoints
+# It should be changed whenever the returned structure changes as well.
+components:
+  schemas:
+    Log:
+      type: object
+      properties:
+        logId:
+          type: string
+          description: The auto-generated uuid of the log item.
+          example: "879127udh12f23"
+        userName:
+          type: string
+          description: The username of the person who posted this log item. Will be automatically extracted from the json webtoken
+          example: "John Doe"
+        title:
+          type: string
+          description: Title of the log item.
+          example: "Household"
+        description:
+          type: string
+          description: A description of the log item.
+          example: "All tasks that are related to householdwork, like buying groceries, walk the dog, feed the fish, ..."
+        created:
+          type: date
+          description: Moment.js timestamp of when the action item has been created.
+          example: "Moment<2020-12-21T13:01:42+01:00>"
+
+tags:
+  name: Log
+  description: Secondary resource. A log item explains one or several stepts that have been taken for a particular action or project.
+
+# Log endpoint: User ID path
+/api/v1/log/{logId}:
+  put:
+    summary: Update a log item based on its ID
+    operationId: handleUpdateLogByLogId
+    tags: [Log]
+    parameters:
+      - in: path
+        name: logId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the log item which should be updated
+    produces:
+      - application/json
+    requestBody:
+      description: Updates a log item
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the log item.
+                example: "Updated log item"
+              description:
+                type: string
+                description: A description of the log item.
+                example: "Updated the item necessary for the next step"
+    responses:
+      200:
+        description: Returns an `object` representing the created log item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Log"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Delete all log items for a particular action. This method should be called whenever an action item is deleted.
+    operationId: handleDeleteLogByActionId
+    tags: [Log]
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the action item for which which log items should be deleted
+    produces:
+      - application/json
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the log item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Log endpoint: Log ID path
+/api/v1/log/{actionId}:
+  get:
+    summary: Returns a collection of logs for a specified action.
+    operationId: handleGetLogsByActionId
+    tags: [Log]
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the action item for which logs should be returned.
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of logs for the specified action.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Log"
+      404:
+        description: Returns an `object` describing that no log item was found for this action.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+  post:
+    summary: Create a new log item for a particular action
+    operationId: handleCreateLogByActionId
+    tags: [Log]
+    parameters:
+      - in: path
+        name: logId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the action item for which a log item should be created
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a log item for a particular action item
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the log item.
+                example: "Created new item"
+              description:
+                type: string
+                description: A description of the log item.
+                example: "Created the item necessary for the next step"
+    responses:
+      200:
+        description: Returns an `object` representing the created log item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Log"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Delete all log items for a particular action. This method should be called whenever an action item is deleted.
+    operationId: handleDeleteLogByActionId
+    tags: [Log]
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the action item for which which log items should be deleted
+    produces:
+      - application/json
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the log item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
