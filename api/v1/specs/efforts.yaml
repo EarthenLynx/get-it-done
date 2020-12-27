@@ -1,0 +1,197 @@
+components:
+  schemas:
+    Effort:
+      type: object
+      properties:
+        effortId:
+          type: string
+          description: The auto-generated uuid of the effort
+          example: "198d2178f23h"
+        actionId:
+          type: string
+          description: The id of the action this effort belongs to
+          example: "jf21n7fh287"
+        time:
+          type: number
+          description: Seconds invested into this specific effort item
+          example: 50000
+
+tags:
+  name: Effort
+  description: Secondary resource. An effort is a substep of a single action being performed. All of these cumulate to the total effort used on a single action.
+
+# Action endpoint:
+api/v1/effort/{actionId}:
+  get:
+    summary: Returns all maintained efforts for a specific action
+    operationId: handleGetEffortsByActionId
+    tags: [Effort]
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: string
+        description: Unique ID of the action for which effort items should be returned.
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of efforts.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Effort"
+      404:
+        description: Returns an `object` describing that no efforts were found for a particular action.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  post:
+    summary: Create a new effort for a specific action.
+    operationId: handleCreateEffortByActionId
+    tags: [Effort]
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a new effort item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              time:
+                type: number
+                description: Seconds invested into this specific effort item
+                example: 50000
+    responses:
+      200:
+        description: Returns an `object` representing the created effort
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Effort"
+
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Deletes all efforts for a specific action.
+    operationId: handleDeleteEffortByEffortId
+    tags: [Effort]
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the action for which efforts should be deleted.
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the action was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Effort endpoint:
+api/v1/effort/{effortId}:
+  put:
+    summary: Updates a single effort based on its ID.
+    operationId: handleUpdateEffortByEffortId
+    tags: [Effort]
+    parameters:
+      - in: path
+        name: effortId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the effort for which the entry data should be updated.
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Update an existing effort item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              actionId:
+                type: string
+                description: The id of the action this effort belongs to
+                example: "jf21n7fh287"
+              time:
+                type: number
+                description: Seconds invested into this specific effort item
+                example: 40000
+    responses:
+      200:
+        description: Returns an `object` representing the updated effort
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Effort"
+
+      404:
+        description: Returns an `object` describing that the effort was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Deletes a single effort based on its ID.
+    operationId: handleDeleteEffortByEffortId
+    tags: [Effort]
+    parameters:
+      - in: path
+        name: effortId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the effort which should be deleted
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the effort was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
