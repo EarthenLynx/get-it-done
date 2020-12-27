@@ -60,8 +60,10 @@ api/v1/operator:
     summary: Create a new operator. An operator is somebody who does the 'waiting' - items.
     operationId: handleCreateOperator
     tags: [Operator]
-    consumes: application/json
-    produces: application/json
+    consumes:
+      - application/json
+    produces:
+      - application/json
     requestBody:
       description: Creates a new operator item.
       required: true

@@ -1,0 +1,211 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: The auto-generated uuid of the user
+          example: "198d2178f23h"
+        userName:
+          type: string
+          description: The full name of the user
+          example: "Jane Doe"
+        userMail:
+          type: string
+          description: The email adress of the user. This will also be used to login
+          example: "Jane@doe.com"
+        userRole:
+          type: string
+          description: The role of the user. Can be either `operator`, `member` or `admin`.
+          example: "admin"
+
+tags:
+  name: User
+  description: Secondary resource. A user is a person who can login, manage their own resources, assign tasks, etc.
+
+# User endpoint:
+api/v1/user:
+  get:
+    summary: Returns all maintained users. The q - parameter can be used to refine the search.
+    operationId: handleGetUsers
+    tags: [User]
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Queries the database for userName which includes a substring of the query that's been passed
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of users
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  post:
+    summary: Create a new user. Before calling this api function, a successful authentication process should have been processed. By default, a new user will receive the role 'member'
+    operationId: handleCreateUser
+    tags: [User]
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a new user item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                description: The auto-generated uuid of the user
+                example: "198d2178f23h"
+              userName:
+                type: string
+                description: The full name of the user
+                example: "Jane Doe"
+              userMail:
+                type: string
+                description: The email adress of the user
+                example: "Jane@doe.com"
+    responses:
+      200:
+        description: Returns an `object` representing the created user
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# User endpoint:
+api/v1/user/{userId}:
+  get:
+    summary: Returns a single maintained user. Its parameters can then be used to do customization in the frontend. Authentication is still managed with json webtoken
+    operationId: handleGetUsers
+    tags: [User]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        description: Unique ID of the user for which the entry data should be returned
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `object` describing the user that has been queried
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  put:
+    summary: Updates a single user based on its ID.
+    operationId: handleUpdateUserByUserId
+    tags: [User]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the user for which the entry data should be updated
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Update an existing user item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userName:
+                type: string
+                description: The full name of the user
+                example: "Jane Doe"
+              userMail:
+                type: string
+                description: The email adress of the user
+                example: "Jane@doe.com"
+              userRole:
+                type: string
+                description: The role of the user. Can be either `operator`, `member` or `admin`.
+                example: "admin"
+
+    responses:
+      200:
+        description: Returns an `object` representing the updated user
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
+      404:
+        description: Returns an `object` describing that the user was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Deletes a single user based on its ID.
+    operationId: handleDeleteUserByUserId
+    tags: [User]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the user which should be deleted
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the user was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
