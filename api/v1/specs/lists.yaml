@@ -40,13 +40,11 @@ api/v1/list:
               type: array
               items:
                 $ref: "#/components/schemas/List"
-        # TODO: Check back if this link's operation ID is still valid
         links:
           Create / Update Action:
             description: The listId - value returned in the response can be used to categorize an action in `/action/{actionId}/`
             operationId: handleCreateAction
             parameters:
-              "...": "..."
               listId: "879127udh12f23"
       500:
         description: Returns an `object` describing the unexpected server error that occured

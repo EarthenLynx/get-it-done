@@ -84,7 +84,7 @@ tags:
                 type: date
                 description: Moment.js timestamp of when waiting item should be reviewed.
                 example: "Moment<2020-12-21T13:01:42+01:00>"
-              operator:
+              operatorId:
                 type: string
                 description: The id of the operator who is working on the task
                 example: 872hf8123
