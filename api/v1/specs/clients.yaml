@@ -1,0 +1,182 @@
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: The auto-generated uuid of the client
+          example: "198d2178f23h"
+        clientName:
+          type: string
+          description: The full name of the client
+          example: "Doe Corp"
+        clientMail:
+          type: string
+          description: The email adress of the client
+          example: "John@DoeCorp.com"
+
+tags:
+  name: Client
+  description: Secondary resource. A client is an entity for which tasks are performed.
+
+# Client endpoint:
+api/v1/client:
+  get:
+    summary: Returns all maintained clients. The q - parameter can be used to refine the search.
+    operationId: handleGetClients
+    tags: [Client]
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Queries the database for clientName which includes a substring of the query that's been passed
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Returns an `array` of clients
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Client"
+        links:
+          Assign a waiting item:
+            description: The clientId - value returned in the response can be used to categorize a waiting item in `/waiting/{waitingId}`
+            operationId: handleCreateWaiting
+            parameters:
+              "...": "..."
+              clientId: "198d2178f23h"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  post:
+    summary: Create a new client. A client is an entity for which tasks are performed.
+    operationId: handleCreateClient
+    tags: [Client]
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a new client item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              clientId:
+                type: string
+                description: The auto-generated uuid of the client
+                example: "198d2178f23h"
+              clientName:
+                type: string
+                description: The full name of the client
+                example: "John Doe"
+              clientMail:
+                type: string
+                description: The email adress of the client
+                example: "John@doe.com"
+    responses:
+      200:
+        description: Returns an `object` representing the created client
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Client"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+# Client endpoint:
+api/v1/client/{clientId}:
+  put:
+    summary: Updates a single client based on its ID.
+    operationId: handleUpdateClientByClientId
+    tags: [Client]
+    parameters:
+      - in: path
+        name: clientId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the client for which the entry data should be updated
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Update an existing client item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              clientName:
+                type: string
+                description: The full name of the client
+                example: "John Doe"
+              clientMail:
+                type: string
+                description: The email adress of the client
+                example: "John@doe.com"
+    responses:
+      200:
+        description: Returns an `object` representing the updated client
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Client"
+      404:
+        description: Returns an `object` describing that the client was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+  delete:
+    summary: Deletes a single client based on its ID.
+    operationId: handleDeleteClientByClientId
+    tags: [Client]
+    parameters:
+      - in: path
+        name: clientId
+        schema:
+          type: string
+        required: true
+        description: Unique ID of the client which should be deleted
+    responses:
+      204:
+        description: Returns an empty `string` with status code 204 'no content'
+      404:
+        description: Returns an `object` describing that the client was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
