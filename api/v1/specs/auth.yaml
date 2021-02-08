@@ -1,0 +1,63 @@
+components:
+  schemas:
+    AuthForm:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username of the user who is to be logged in
+          example: john@doe.com
+        password:
+          type: string
+          description: The non encrypted password to identify and login a user
+          example: swordfish123
+
+/api/v1/authenticate:
+  post:
+    summary: Authenticate a user and hand out a json webtoken
+    operationId: handleAuthenticateUser
+    requestBody:
+      description: Login using your user credentials `username` and `password`.
+      required: true,
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AuthForm"
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: "#/components/schemas/AuthForm"
+    responses:
+      200:
+        description: Returns an empty string. The token to authenticate can be found within the header under `x-api-token`
+        headers:
+          x-auth-token:
+            description: The Json Webtoken a user can use to login with his account data
+            schema:
+              type: string
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
+
+/api/v1/login:
+  post:
+    summary: After authenticating, this route can be used to login. It requires a valid json webtoken inside the browser request
+    oprtationId: handleLoginUser
+    parameters:
+      - in: header
+        name: x-auth-token
+        schema:
+          type: string
+          description: The Json Webtoken received by /authenticate
+          required: true
+
+    responses:
+      200:
+        description: OK
+        headers:
+          x-api-token:
+            description: The Json Webtoken a user can use to authenticate and access his data
+            schema:
+              type: string
