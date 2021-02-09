@@ -53,49 +53,6 @@ api/v1/user:
           application/json:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
-  post:
-    summary: Create a new user. Before calling this api function, a successful authentication process should have been processed. By default, a new user will receive the role 'member'
-    operationId: handleCreateUser
-    tags: [User]
-    consumes:
-      - application/json
-    produces:
-      - application/json
-    requestBody:
-      description: Creates a new user item.
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              userId:
-                type: string
-                description: The auto-generated uuid of the user
-                example: "198d2178f23h"
-              userName:
-                type: string
-                description: The full name of the user
-                example: "Jane Doe"
-              userMail:
-                type: string
-                description: The email adress of the user
-                example: "Jane@doe.com"
-    responses:
-      200:
-        description: Returns an `object` representing the created user
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/User"
-      500:
-        description: Returns an `object` describing the unexpected server error that occured
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InternalErrorException"
 
 # User endpoint:
 api/v1/user/{userId}:

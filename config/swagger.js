@@ -58,6 +58,11 @@ const swaggerSpecs = {
 	},
 	tags: [
 		{
+			name: 'Auth',
+			description:
+				'Secondary resource: The auth resource is used to authenticate users against a single endpoint. The primary keys to access these have to be the same as for the user resource',
+		},
+		{
 			name: 'Next action',
 			description: 'Primary resource: Tasks or actions that should be done next.',
 		},
@@ -81,11 +86,6 @@ const swaggerSpecs = {
 				'Secondary resource: Users can perform operations on the API. Also, this resource is used to customize the UI or user settings',
 		},
 		{
-			name: 'Auth',
-			description:
-				'Secondary resource: The auth resource is used to authenticate users against a single endpoint. The primary keys to access these have to be the same as for the user resource',
-		},
-		{
 			name: 'Logs',
 			description:
 				'Secondary resource: Each task can include several logs. These might be single subtasks that have been done, communication that happened, etc.',
@@ -102,6 +102,9 @@ const swaggerSpecs = {
 		},
 	],
 	apis: [
+		/* Authenticaiton resource */
+		'./api/v1/specs/auth.yaml',
+
 		/* Primary resources */
 		'./api/v1/specs/intray.yaml',
 		'./api/v1/specs/information.yaml',
@@ -114,7 +117,6 @@ const swaggerSpecs = {
 		'./api/v1/specs/lists.yaml',
 		'./api/v1/specs/operators.yaml',
 		'./api/v1/specs/users.yaml',
-		'./api/v1/specs/auth.yaml',
 		'./api/v1/specs/logs.yaml',
 		'./api/v1/specs/efforts.yaml',
 		'./api/v1/specs/clients.yaml',

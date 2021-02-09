@@ -12,10 +12,11 @@ components:
           description: The non encrypted password to identify and login a user
           example: swordfish123
 
-/api/v1/authenticate:
+/api/v1/auth/authenticate:
   post:
     summary: Authenticate a user and hand out a json webtoken
     operationId: handleAuthenticateUser
+    tags: [Auth]
     requestBody:
       description: Login using your user credentials `username` and `password`.
       required: true,
@@ -41,10 +42,11 @@ components:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
 
-/api/v1/login:
+/api/v1/auth/login:
   post:
     summary: After authenticating, this route can be used to login. It requires a valid json webtoken inside the browser request
     oprtationId: handleLoginUser
+    tags: [Auth]
     parameters:
       - in: header
         name: x-auth-token
@@ -61,3 +63,48 @@ components:
             description: The Json Webtoken a user can use to authenticate and access his data
             schema:
               type: string
+
+/api/v1/auth/signup:
+  post:
+    summary: Create a new user. Before calling this api function, a successful authentication process should have been processed. By default, a new user will receive the role 'member'
+    operationId: handleCreateUser
+    tags: [Auth]
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    requestBody:
+      description: Creates a new user item.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: The full name of the user
+                example: "Jane Doe"
+              password:
+                type: string
+                description: The unencrypted password of the user
+                example: "supersecret123"
+              email:
+                type: string
+                description: The email adress of the user
+                example: "Jane@doe.com"
+    responses:
+      200:
+        description: Returns an `object` representing the created user
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
+      500:
+        description: Returns an `object` describing the unexpected server error that occured
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalErrorException"
