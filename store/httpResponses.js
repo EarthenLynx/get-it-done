@@ -1,4 +1,17 @@
 module.exports = {
+  // HTTP 20X
+  success: {
+    ok: {
+      status: 'success',
+      message: 'OK',
+    },
+
+    created: {
+      status: 'success',
+      message: 'Item created',
+    },
+  },
+
   // HTTP 40X
   clientError: {
     userExists: {
@@ -8,8 +21,14 @@ module.exports = {
 
     missingRequestBody: {
       status: 'client-error',
-      message: 'The request did not contain a body'
-    }
+      message: 'The request did not contain a body',
+    },
+
+    // 404
+    authNotFound: {
+      status: 'not-found',
+      message: 'User - password combination not found',
+    },
   },
 
   // HTTP 50X
