@@ -18,13 +18,13 @@ components:
     operationId: handleAuthenticateUser
     tags: [Auth]
     requestBody:
-      description: Login using your user credentials `username` and `password`.
+      description: Allows a registered user to login using their user credentials `username` and `password`.
       required: true,
       content:
-        application/json:
+        application/x-www-form-urlencoded:
           schema:
             $ref: "#/components/schemas/AuthForm"
-        application/x-www-form-urlencoded:
+        application/json:
           schema:
             $ref: "#/components/schemas/AuthForm"
     responses:
@@ -35,12 +35,24 @@ components:
             description: The Json Webtoken a user can use to login with his account data
             schema:
               type: string
-      500:
-        description: Returns an `object` describing the unexpected server error that occured
+      400:
+        description: This exception occurs if the login payload is missing
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/missingRequestBody"
+      404:
+        description: This exception occurs if a user-password combination is not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/authNotFound"
+      500:
+        description: This exception occurs during a server error.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/serverError"
 
 /api/v1/auth/login:
   post:
@@ -50,6 +62,7 @@ components:
     parameters:
       - in: header
         name: x-auth-token
+        description: To successfully login, send the `x-api-token` received from `api/v1/auth/authenticate`
         schema:
           type: string
           description: The Json Webtoken received by /authenticate
@@ -63,6 +76,28 @@ components:
             description: The Json Webtoken a user can use to authenticate and access his data
             schema:
               type: string
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
+      500:
+        description: This exception occurs during a server error.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/serverError"
 
 /api/v1/auth/signup:
   post:
@@ -103,8 +138,8 @@ components:
               items:
                 $ref: "#/components/schemas/User"
       500:
-        description: Returns an `object` describing the unexpected server error that occured
+        description: This exception occurs during a server error.
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
