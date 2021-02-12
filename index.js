@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 
 // Initialize the routes
 const authRoute = require('./api/v1/routes/Auth.route');
+const intrayRoute = require('./api/v1/routes/Intray.route');
 
 // Initialize app and configs
 const app = express();
@@ -48,6 +49,7 @@ app.use(
 
 // Initialize the API routes
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/intray', intrayRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(

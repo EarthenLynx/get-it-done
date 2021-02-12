@@ -46,6 +46,8 @@ tags:
 # Intray endpoint: No params
 /api/v1/intray:
   post:
+    security:
+    - bearerAuth: []
     summary: Creates a new intray item. The userId property is taken from the user's json webtoken, the timestamps are created automatically
     operationId: handleCreateIntray
     tags: [Intray]
@@ -90,6 +92,8 @@ tags:
 # Intray endpoint: User ID path
 api/v1/intray/{userId}:
   get:
+    security:
+    - bearerAuth: []
     summary: Returns a list of all intray items for a specific user. userId defaults to the userId extracted from the json webtoken.
     operationId: handleGetIntrayByUserId
     tags: [Intray]
@@ -146,6 +150,8 @@ api/v1/intray/{userId}:
 # Intray endpoint: Intray ID path
 /api/v1/intray/{intrayId}:
   get:
+    security:
+    - bearerAuth: []
     summary: Returns a single intray item by its id
     operationId: handleGetIntrayByIntrayId
     tags: [Intray]
@@ -178,6 +184,8 @@ api/v1/intray/{userId}:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
   put:
+    security:
+    - bearerAuth: []
     summary: Update a single intray item by its id
     operationId: handleUpdateIntrayByIntrayId
     tags: [Intray]
@@ -234,6 +242,8 @@ api/v1/intray/{userId}:
             schema:
               $ref: "#/components/schemas/InternalErrorException"
   delete:
+    security:
+    - bearerAuth: []
     summary: Delete a single intray item by its id
     operationId: handleDeleteIntrayByIntrayId
     tags: [Intray]

@@ -11,6 +11,11 @@ components:
           type: string
           description: The non encrypted password to identify and login a user
           example: "supersecret123"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
 /api/v1/auth/authenticate:
   post:
