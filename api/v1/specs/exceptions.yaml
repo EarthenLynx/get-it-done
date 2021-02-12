@@ -1,8 +1,61 @@
 components:
   schemas:
-    # HTTP status 404
-    NotFoundException:
-      type: object
+    userExists:
+      properties:
+        status:
+          type: string
+          description: Describes the type of error that occured during execution
+          example: 'client-error'
+        message:
+          type: string
+          description: Includes a message for the user to see that no items were found
+          example: The username is already taken, please choose another
+
+    notAuthorizedResource:
+      properties:
+        status:
+          type: string
+          description: Describes the type of error that occured during execution
+          example: 'not-authorized'
+        message:
+          type: string
+          description: Includes a message for the user to see that no items were found
+          example: You are not permitted to access this resource
+
+    notAuthorizedAction:
+      properties:
+        status:
+          type: string
+          description: Describes the type of error that occured during execution
+          example: 'not-authorized'
+        message:
+          type: string
+          description: Includes a message for the user to see that no items were found
+          example: You are not permitted to perform this operation
+
+    missingAuthHeaders:
+      properties:
+        status:
+          type: string
+          description: Describes the type of error that occured during execution
+          example: 'client-error'
+        message:
+          type: string
+          description: Includes a message for the user to see that no items were found
+          example: The request did not contain a valid authentication token
+
+    missingRequestBody:
+      properties:
+        status:
+          type: string
+          description: Describes the type of error that occured during execution
+          example: 'client-error'
+        message:
+          type: string
+          description: Includes a message for the user to see that no items were found
+          example: The request did not contain a body
+
+    authNotFound:
       properties:
         status:
           type: string
@@ -11,17 +64,15 @@ components:
         message:
           type: string
           description: Includes a message for the user to see that no items were found
-          example: Could not find the resource you are looking for
+          example: User - password combination not found
 
-    # HTTP status 500
-    InternalErrorException:
-      type: object
+    serverError:
       properties:
         status:
           type: string
           description: Describes the type of error that occured during execution
-          example: 'error'
-        msg:
+          example: 'internal-server-error'
+        message:
           type: string
-          description: Includes a message for the user to see what went wrong
-          example: Something went wrong, please try again later
+          description: Includes a message for the user to see that no items were found
+          example: An unexpected error has occured, please try again later

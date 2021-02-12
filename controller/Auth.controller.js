@@ -7,7 +7,9 @@ const { ok } = require('../store/httpResponses').success;
 const {
   userExists,
   missingRequestBody,
+  missingAuthHeaders,
   authNotFound,
+  notAuthorizedAction,
 } = require('../store/httpResponses').clientError;
 const { internalError } = require('../store/httpResponses').serverError;
 
@@ -88,25 +90,77 @@ const AuthController = {
 
       // Create the JWT config and content
       const jwtPayload = { authKey, authValue };
-      const jwtName = process.env.AUTH_TOKEN_NAME;
-      const jwtSignature = process.env.AUTH_SECRET;
       const jwtOptions = {
-        audience: process.env.API_VERSION,
+        audience: username,
         issuer: req.hostname,
         expiresIn: '1m',
       };
 
-      jwt.sign(jwtPayload, jwtSignature, jwtOptions, (err, token) => {
-        if (err) throw err;
-        console.log(token);
-        const headers = { 'x-api-token': token };
+      jwt.sign(
+        jwtPayload,
+        process.env.AUTH_SECRET,
+        jwtOptions,
+        (err, token) => {
+          if (err) throw err;
+          const headers = { 'x-auth-token': token };
 
-        return res.status(200).set(headers).send(ok);
-      });
+          return res.status(200).set(headers).send(ok);
+        }
+      );
     } catch (e) {}
   },
 
-  handleLoginUser(req, res) {},
+  async handleLoginUser(req, res) {
+    if (!req.headers['x-auth-token']) {
+      return res.status(401).send(missingAuthHeaders);
+    }
+    try {
+      const token = req.headers['x-auth-token'];
+      jwt.verify(token, process.env.AUTH_SECRET, async (err, authPayload) => {
+        if (err) {
+          return res.status(403).send(notAuthorizedAction);
+        } else {
+          const { authKey, authValue } = authPayload;
+          // Check if process variable has been set during authentication
+          if (!process.env[authKey] === authValue) {
+            delete process.env[authKey];
+            return res.status(403).send(notAuthorizedAction);
+            // If authentication is successful, perform login
+          } else {
+            delete process.env[authKey];
+            const username = authPayload.aud;
+            const user = await User.findOneAndUpdate(
+              { username },
+              { lastLogin: moment() }
+            );
+            // Build up payload and send back to client
+            const userPayload = {
+              roles: user.roles,
+              id: user.id,
+              username: user.username,
+              email: user.email,
+              lastLogin: user.lastLogin,
+            };
+            const jwtOptions = {
+              expiresIn: '2h',
+            };
+            jwt.sign(
+              userPayload,
+              process.env.API_SECRET,
+              jwtOptions,
+              (err, userToken) => {
+                if (err) throw err;
+                const headers = { 'x-api-token': userToken };
+                return res.status(200).set(headers).send({...ok, user: userPayload});
+              }
+            );
+          }
+        }
+      });
+    } catch (e) {
+      return res.status(500).send(internalError);
+    }
+  },
 };
 
 module.exports = AuthController;

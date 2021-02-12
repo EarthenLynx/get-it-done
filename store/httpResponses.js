@@ -19,6 +19,21 @@ module.exports = {
       message: 'The username is already taken, please choose another',
     },
 
+    notAuthorizedResource: {
+      status: 'not-authorized',
+      message: 'You are not permitted to access this resource',
+    },
+
+    notAuthorizedAction: {
+      status: 'not-authorized',
+      message: 'You are not permitted to perform this operation',
+    },
+
+    missingAuthHeaders: {
+      status: 'client-error',
+      message: 'The request did not contain a valid authentication token',
+    },
+
     missingRequestBody: {
       status: 'client-error',
       message: 'The request did not contain a body',

@@ -6,11 +6,11 @@ components:
         username:
           type: string
           description: The username of the user who is to be logged in
-          example: john@doe.com
+          example: "Jane Doe"
         password:
           type: string
           description: The non encrypted password to identify and login a user
-          example: swordfish123
+          example: "supersecret123"
 
 /api/v1/auth/authenticate:
   post:
@@ -29,7 +29,7 @@ components:
             $ref: "#/components/schemas/AuthForm"
     responses:
       200:
-        description: Returns an empty string. The token to authenticate can be found within the header under `x-api-token`
+        description: Returns the token to authenticate with - it be found within the header under `x-api-token`
         headers:
           x-auth-token:
             description: The Json Webtoken a user can use to login with his account data
@@ -62,7 +62,7 @@ components:
     parameters:
       - in: header
         name: x-auth-token
-        description: To successfully login, send the `x-api-token` received from `api/v1/auth/authenticate`
+        description: To successfully login, send the `x-auth-token` received from `api/v1/auth/authenticate`. The `x-api-token` received back can then be used for subsequent, personalized requests
         schema:
           type: string
           description: The Json Webtoken received by /authenticate
@@ -112,6 +112,23 @@ components:
       description: Creates a new user item.
       required: true
       content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: The full name of the user
+                example: "Jane Doe"
+              password:
+                type: string
+                description: The unencrypted password of the user
+                example: "supersecret123"
+              email:
+                type: string
+                description: The email adress of the user
+                example: "Jane@doe.com"
+
         application/json:
           schema:
             type: object
@@ -134,9 +151,7 @@ components:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/User"
       500:
         description: This exception occurs during a server error.
         content:
