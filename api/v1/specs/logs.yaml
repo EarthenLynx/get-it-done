@@ -74,7 +74,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Delete all log items for a particular action. This method should be called whenever an action item is deleted.
     operationId: handleDeleteLogByActionId
@@ -102,7 +102,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Log endpoint: Log ID path
 /api/v1/log/{actionId}:
@@ -139,7 +139,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   post:
     summary: Create a new log item for a particular action
     operationId: handleCreateLogByActionId
@@ -181,7 +181,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Delete all log items for a particular action. This method should be called whenever an action item is deleted.
     operationId: handleDeleteLogByActionId
@@ -209,4 +209,4 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

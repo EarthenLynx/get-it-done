@@ -52,7 +52,7 @@ api/v1/user:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # User endpoint:
 api/v1/user/{userId}:
@@ -82,7 +82,7 @@ api/v1/user/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   put:
     summary: Updates a single user based on its ID.
     operationId: handleUpdateUserByUserId
@@ -139,7 +139,7 @@ api/v1/user/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Deletes a single user based on its ID.
     operationId: handleDeleteUserByUserId
@@ -165,4 +165,4 @@ api/v1/user/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

@@ -89,7 +89,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Calender endpoint: User ID path
 api/v1/calender/{userId}:
@@ -145,7 +145,7 @@ api/v1/calender/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Calender endpoint: Calender ID path
 /api/v1/calender/{calenderId}:
@@ -180,7 +180,7 @@ api/v1/calender/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   put:
     summary: Update a single calender item by its id
     operationId: handleUpdateCalenderByCalenderId
@@ -238,7 +238,7 @@ api/v1/calender/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Delete a single calender item by its id
     operationId: handleDeleteCalenderByInstrayId
@@ -266,4 +266,4 @@ api/v1/calender/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

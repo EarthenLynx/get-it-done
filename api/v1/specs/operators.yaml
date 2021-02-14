@@ -59,7 +59,7 @@ api/v1/operator:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   post:
     summary: Create a new operator. An operator is somebody who does the 'waiting' - items.
     operationId: handleCreateOperator
@@ -102,7 +102,7 @@ api/v1/operator:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Operator endpoint:
 api/v1/operator/{operatorId}:
@@ -157,7 +157,7 @@ api/v1/operator/{operatorId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Deletes a single operator based on its ID.
     operationId: handleDeleteOperatorByOperatorId
@@ -183,4 +183,4 @@ api/v1/operator/{operatorId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

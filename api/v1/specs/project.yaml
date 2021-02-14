@@ -84,7 +84,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Project endpoint: User ID path
 api/v1/project/{userId}:
@@ -140,7 +140,7 @@ api/v1/project/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Project endpoint: Project ID path
 /api/v1/project/{projectId}:
@@ -186,7 +186,7 @@ api/v1/project/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   put:
     summary: Update a single project item by its id
     operationId: handleUpdateProjectByProjectId
@@ -242,7 +242,7 @@ api/v1/project/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Delete a single project item by its id
     operationId: handleDeleteProjectByProjectId
@@ -270,4 +270,4 @@ api/v1/project/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

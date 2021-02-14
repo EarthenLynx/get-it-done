@@ -55,7 +55,7 @@ api/v1/client:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   post:
     summary: Create a new client. A client is an entity for which tasks are performed.
     operationId: handleCreateClient
@@ -98,7 +98,7 @@ api/v1/client:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Client endpoint:
 api/v1/client/{clientId}:
@@ -153,7 +153,7 @@ api/v1/client/{clientId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Deletes a single client based on its ID.
     operationId: handleDeleteClientByClientId
@@ -179,4 +179,4 @@ api/v1/client/{clientId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

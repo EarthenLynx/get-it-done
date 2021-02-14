@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const verifyUser = require("../../../middleware/verifyUser");
+const { verifyUser, verifyGuest } = require('../../../middleware/verifyUser');
 
-router.post('/', verifyUser, (req, res) => {
-  console.log(req.session)
-  res.send('OK')
+router.post('/', verifyGuest, (req, res) => {
+  console.log(req.session);
+  res.send('OK');
 });
 
 module.exports = router;

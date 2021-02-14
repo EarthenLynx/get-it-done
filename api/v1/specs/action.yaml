@@ -120,7 +120,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Action endpoint: User ID path
 api/v1/action/{userId}:
@@ -176,7 +176,7 @@ api/v1/action/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Action endpoint: Action ID path
 /api/v1/action/{actionId}:
@@ -222,7 +222,7 @@ api/v1/action/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   put:
     summary: Update a single action item by its id
     operationId: handleUpdateActionByActionId
@@ -278,7 +278,7 @@ api/v1/action/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Delete a single action item by its id
     operationId: handleDeleteActionByActionId
@@ -306,7 +306,7 @@ api/v1/action/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Action endpoint: Project ID path
 api/v1/action/{projectId}:
@@ -362,7 +362,7 @@ api/v1/action/{projectId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Action endpoint: Client ID path
 api/v1/action/{clientId}:
@@ -418,4 +418,4 @@ api/v1/action/{clientId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

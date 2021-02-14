@@ -54,7 +54,7 @@ api/v1/effort/{actionId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   post:
     summary: Create a new effort for a specific action.
     operationId: handleCreateEffortByActionId
@@ -88,7 +88,7 @@ api/v1/effort/{actionId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Deletes all efforts for a specific action.
     operationId: handleDeleteEffortByEffortId
@@ -114,7 +114,7 @@ api/v1/effort/{actionId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Effort endpoint:
 api/v1/effort/{effortId}:
@@ -168,7 +168,7 @@ api/v1/effort/{effortId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Deletes a single effort based on its ID.
     operationId: handleDeleteEffortByEffortId
@@ -194,4 +194,4 @@ api/v1/effort/{effortId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

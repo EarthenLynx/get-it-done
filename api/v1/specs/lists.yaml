@@ -51,7 +51,7 @@ api/v1/list:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   post:
     summary: Create a new list item.
     operationId: handleCreateList
@@ -81,7 +81,7 @@ api/v1/list:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # List endpoint: List ID path
 /api/v1/list/{listId}:
@@ -132,7 +132,7 @@ api/v1/list:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Delete a single list item by its id
     operationId: handleDeleteListByListId
@@ -160,4 +160,4 @@ api/v1/list:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

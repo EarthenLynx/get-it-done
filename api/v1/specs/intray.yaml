@@ -87,7 +87,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Intray endpoint: User ID path
 api/v1/intray/{userId}:
@@ -145,7 +145,7 @@ api/v1/intray/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Intray endpoint: Intray ID path
 /api/v1/intray/{intrayId}:
@@ -182,7 +182,7 @@ api/v1/intray/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   put:
     security:
     - bearerAuth: []
@@ -240,7 +240,7 @@ api/v1/intray/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     security:
     - bearerAuth: []
@@ -270,4 +270,4 @@ api/v1/intray/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

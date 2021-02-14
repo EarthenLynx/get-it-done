@@ -104,7 +104,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Waiting endpoint: User ID path
 api/v1/waiting/{userId}:
@@ -176,7 +176,7 @@ api/v1/waiting/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Waiting endpoint: Waiting ID path
 /api/v1/waiting/{waitingId}:
@@ -223,7 +223,7 @@ api/v1/waiting/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   put:
     summary: Update a single waiting item by its id
     operationId: handleUpdateWaitingByWaitingId
@@ -289,7 +289,7 @@ api/v1/waiting/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Delete a single waiting item by its id
     operationId: handleDeleteWaitingByInstrayId
@@ -317,7 +317,7 @@ api/v1/waiting/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Waiting endpoint: Operator ID path
 api/v1/waiting/{operatorId}:
@@ -383,4 +383,4 @@ api/v1/waiting/{operatorId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"

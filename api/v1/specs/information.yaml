@@ -74,7 +74,7 @@ tags:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Information endpoint: User ID path
 api/v1/information/{userId}:
@@ -117,7 +117,7 @@ api/v1/information/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
 
 # Information endpoint: Information ID path
 /api/v1/information/{informationId}:
@@ -152,7 +152,7 @@ api/v1/information/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   put:
     summary: Update a single information item by its id
     operationId: handleUpdateInformationByInformationId
@@ -202,7 +202,7 @@ api/v1/information/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
   delete:
     summary: Delete a single information item by its ID
     operationId: handleDeleteInformationByInformationId
@@ -228,4 +228,4 @@ api/v1/information/{userId}:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InternalErrorException"
+              $ref: "#/components/schemas/serverError"
