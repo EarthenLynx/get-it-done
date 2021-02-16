@@ -117,7 +117,7 @@ components:
           schema:
             type: object
             properties:
-              username:
+              userName:
                 type: string
                 description: The full name of the user
                 example: "Jane Doe"
@@ -125,7 +125,7 @@ components:
                 type: string
                 description: The unencrypted password of the user
                 example: "supersecret123"
-              email:
+              userMail:
                 type: string
                 description: The email adress of the user
                 example: "Jane@doe.com"
@@ -134,7 +134,7 @@ components:
           schema:
             type: object
             properties:
-              username:
+              userName:
                 type: string
                 description: The full name of the user
                 example: "Jane Doe"
@@ -142,7 +142,7 @@ components:
                 type: string
                 description: The unencrypted password of the user
                 example: "supersecret123"
-              email:
+              userMail:
                 type: string
                 description: The email adress of the user
                 example: "Jane@doe.com"

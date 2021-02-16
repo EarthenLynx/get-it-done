@@ -24,12 +24,12 @@ const AuthController = {
       // If body is non empty, extract variables and attempt to create a user
     }
     try {
-      const { username, password, email } = req.body;
+      const { userName, password, userMail } = req.body;
 
       const salt = bcrypt.genSaltSync(12);
       const hash = bcrypt.hashSync(password, salt);
 
-      const exists = await User.findOne({ username });
+      const exists = await User.findOne({ userName });
 
       if (exists) {
         return res.status(400).send(userExists);
@@ -37,15 +37,15 @@ const AuthController = {
 
       // Create the new DB entries and save them
       const auth = new Auth({
-        username,
+        userName,
         password: hash,
       });
 
       const user = new User({
         id: uuidv4(),
-        username,
+        userName,
         password,
-        email,
+        userMail,
         roles: ['guest'],
         registered: moment(),
         lastLogin: moment(),
@@ -67,10 +67,10 @@ const AuthController = {
     }
 
     try {
-      const { username, password } = req.body;
+      const { userName, password } = req.body;
 
       // Try to find a user in database
-      const exists = await Auth.findOne({ username });
+      const exists = await Auth.findOne({ userName });
       if (!exists) {
         return res.status(404).send(authNotFound);
       }
@@ -91,7 +91,7 @@ const AuthController = {
       // Create the JWT config and content
       const jwtPayload = { authKey, authValue };
       const jwtOptions = {
-        audience: username,
+        audience: userName,
         issuer: req.hostname,
         expiresIn: '1m',
       };
@@ -128,17 +128,17 @@ const AuthController = {
             // If authentication is successful, perform login
           } else {
             delete process.env[authKey];
-            const username = authPayload.aud;
+            const userName = authPayload.aud;
             const user = await User.findOneAndUpdate(
-              { username },
+              { userName },
               { lastLogin: moment() }
             );
             // Build up payload and send back to client
             const userPayload = {
               roles: user.roles,
               id: user.id,
-              username: user.username,
-              email: user.email,
+              userName: user.userName,
+              userMail: user.userMail,
               lastLogin: user.lastLogin,
             };
             const jwtOptions = {

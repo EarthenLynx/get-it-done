@@ -16,17 +16,19 @@ components:
           description: The email adress of the user. This will also be used to login
           example: "Jane@doe.com"
         userRole:
-          type: string
-          description: The role of the user. Can be either `operator`, `member` or `admin`.
-          example: "admin"
+          type: array
+          description: The role of the user. Can be either `guest`, `member` or `admin`.
+          example: ['guest', 'member', 'admin']
 
 tags:
   name: User
-  description: Secondary resource. A user is a person who can login, manage their own resources, assign tasks, etc.
+  description: Secondary resource. A user is a person who can login, manage their own resources, assign tasks, etc. When deleting a user, its login credentials are also removed. Users are automatically created upon signup.
 
 # User endpoint:
-api/v1/user:
+/api/v1/user:
   get:
+    security:
+      - bearerAuth: []
     summary: Returns all maintained users. The q - parameter can be used to refine the search.
     operationId: handleGetUsers
     tags: [User]
@@ -47,6 +49,18 @@ api/v1/user:
               type: array
               items:
                 $ref: "#/components/schemas/User"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -55,8 +69,10 @@ api/v1/user:
               $ref: "#/components/schemas/serverError"
 
 # User endpoint:
-api/v1/user/{userId}:
+/api/v1/user/{userId}:
   get:
+    security:
+      - bearerAuth: []
     summary: Returns a single maintained user. Its parameters can then be used to do customization in the frontend. Authentication is still managed with json webtoken
     operationId: handleGetUsers
     tags: [User]
@@ -77,6 +93,18 @@ api/v1/user/{userId}:
               type: array
               items:
                 $ref: "#/components/schemas/User"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -84,6 +112,8 @@ api/v1/user/{userId}:
             schema:
               $ref: "#/components/schemas/serverError"
   put:
+    security:
+      - bearerAuth: []
     summary: Updates a single user based on its ID.
     operationId: handleUpdateUserByUserId
     tags: [User]
@@ -134,6 +164,18 @@ api/v1/user/{userId}:
           application/json:
             schema:
               $ref: "#/components/schemas/NotFoundException"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -141,6 +183,8 @@ api/v1/user/{userId}:
             schema:
               $ref: "#/components/schemas/serverError"
   delete:
+    security:
+      - bearerAuth: []
     summary: Deletes a single user based on its ID.
     operationId: handleDeleteUserByUserId
     tags: [User]
@@ -160,6 +204,18 @@ api/v1/user/{userId}:
           application/json:
             schema:
               $ref: "#/components/schemas/NotFoundException"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
