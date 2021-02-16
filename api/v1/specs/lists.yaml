@@ -24,8 +24,10 @@ tags:
   description: Secondary resource. A list item helps to categorize next actions and counters the idea of having only a single todo list.
 
 # List endpoint: User ID path
-api/v1/list:
+/api/v1/list:
   get:
+    security:
+      - bearerAuth: []
     summary: Returns all maintained lists. The resulting array's items can be used to categorize actions.
     operationId: handleGetLists
     tags: [List]
@@ -46,6 +48,27 @@ api/v1/list:
             operationId: handleCreateAction
             parameters:
               listId: "879127udh12f23"
+          Create / Update List:
+            description: The listId - value returned in the response can be used to update a list in `/list/{listId}/`
+            operationId: handleUpdateListByListId
+            parameters:
+              listId: "17821-d12f1-g345h6h-h45f34"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -53,6 +76,8 @@ api/v1/list:
             schema:
               $ref: "#/components/schemas/serverError"
   post:
+    security:
+      - bearerAuth: []
     summary: Create a new list item.
     operationId: handleCreateList
     tags: [List]
@@ -61,14 +86,15 @@ api/v1/list:
     consumes:
       - application/json
     requestBody:
-      title:
-        type: string
-        description: Title of the list item.
-        example: "Household"
-      description:
-        type: string
-        description: A description of the list item.
-        example: "All tasks that are related to household"
+      description: Allows a registered user to login using their user credentials `username` and `password`.
+      required: true,
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: "#/components/schemas/List"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/List"
     responses:
       200:
         description: Returns an `object` representing the created list item
@@ -76,6 +102,28 @@ api/v1/list:
           application/json:
             schema:
               $ref: "#/components/schemas/List"
+      400:
+        description: This exception occurs if the login payload is missing
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingRequestBody"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -86,6 +134,8 @@ api/v1/list:
 # List endpoint: List ID path
 /api/v1/list/{listId}:
   put:
+    security:
+      - bearerAuth: []
     summary: Update a single list item by its id
     operationId: handleUpdateListByListId
     tags: [List]
@@ -121,6 +171,22 @@ api/v1/list:
           application/json:
             schema:
               $ref: "#/components/schemas/List"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
       404:
         description: Returns an `object` describing that the list item was not found
         content:
@@ -134,6 +200,8 @@ api/v1/list:
             schema:
               $ref: "#/components/schemas/serverError"
   delete:
+    security:
+      - bearerAuth: []
     summary: Delete a single list item by its id
     operationId: handleDeleteListByListId
     tags: [List]
@@ -149,6 +217,22 @@ api/v1/list:
     responses:
       204:
         description: Returns an empty `string` with status code 204 'no content'
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
       404:
         description: Returns an `object` describing that the list item was not found
         content:

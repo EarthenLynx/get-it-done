@@ -13,6 +13,9 @@ const mongoose = require('mongoose');
 const authRoute = require('./api/v1/routes/Auth.route');
 const intrayRoute = require('./api/v1/routes/Intray.route');
 
+// Initialize the util routes
+const listRoute = require('./api/v1/routes/List.route');
+
 // Initialize app and configs
 const app = express();
 mongoose.connect(process.env.DB_HOST_ADMIN);
@@ -50,6 +53,9 @@ app.use(
 // Initialize the API routes
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/intray', intrayRoute);
+
+// Initialize the helper routes
+app.use('/api/v1/list', listRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(
