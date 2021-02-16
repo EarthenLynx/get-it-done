@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
-const { ok } = require('../store/httpResponses').success;
-const { itemNotFound } = require('../store/httpResponses').clientError;
-const { internalError } = require('../store/httpResponses').serverError;
+const { updated, deleted } = require('../store/httpMessages').success;
+const { itemNotFound } = require('../store/httpMessages').clientError;
+const { internalError } = require('../store/httpMessages').serverError;
 
 const List = require('../model/List.model');
 
@@ -21,7 +21,7 @@ const ListController = {
       const listId = uuidv4();
       const { title, description } = req.body;
       const newList = await List.create({ listId, title, description });
-      res.send(newList);
+      res.status(201).send(newList);
     } catch (e) {
       console.log(e);
       res.status(500).send(internalError);
@@ -41,7 +41,7 @@ const ListController = {
 
       // If it does, update the item
       await List.updateOne({ listId }, { title, description });
-      res.status(200).send(ok);
+      res.status(200).send(updated);
     } catch (e) {
       console.log(e);
       res.status(500).send(internalError);
@@ -60,7 +60,7 @@ const ListController = {
 
       // If it does, delete the item
       await List.deleteOne({ listId });
-      res.status(204).send(ok);
+      res.status(200).send(deleted);
     } catch (e) {
       console.log(e);
       res.status(500).send(internalError);

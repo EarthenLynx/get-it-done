@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const {
   missingAuthHeaders,
   notAuthorizedResource,
-} = require('../store/httpResponses').clientError;
+} = require('../store/httpMessages').clientError;
 
 const authorizeRole = (req, res, next, rolename) => {
   if (!req.headers.authorization) {
