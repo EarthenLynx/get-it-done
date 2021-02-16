@@ -1,5 +1,47 @@
 components:
   schemas:
+
+    ok:
+      properties:
+        status:
+          type: string
+          description: Describes a successful server operation
+          example: success
+        message:
+          type: string
+          description: Includes a message for the user to see that his operation was successful
+          example: OK
+    created:
+      properties:
+        status:
+          type: string
+          description: Describes a successful server operation
+          example: success
+        message:
+          type: string
+          description: Includes a message for the user to see that his operation was successful
+          example: Item created
+    updated:
+      properties:
+        status:
+          type: string
+          description: Describes a successful server operation
+          example: success
+        message:
+          type: string
+          description: Includes a message for the user to see that his operation was successful
+          example: Item updated
+    deleted:
+      properties:
+        status:
+          type: string
+          description: Describes a successful server operation
+          example: success
+        message:
+          type: string
+          description: Includes a message for the user to see that his operation was successful
+          example: Item deleted
+
     userExists:
       properties:
         status:
@@ -76,7 +118,6 @@ components:
           type: string
           description: Includes a message for the user to see that no items were found
           example: This item cannot be found
-
 
     serverError:
       properties:
