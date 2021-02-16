@@ -44,6 +44,11 @@ module.exports = {
       status: 'not-found',
       message: 'User - password combination not found',
     },
+
+    itemNotFound: {
+      status: 'not-found',
+      message: 'This item cannot be found',
+    }
   },
 
   // HTTP 50X
