@@ -3,15 +3,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 
-const { ok } = require('../store/httpResponses').success;
+const { ok } = require('../store/httpMessages').success;
 const {
   userExists,
   missingRequestBody,
   missingAuthHeaders,
   authNotFound,
   notAuthorizedAction,
-} = require('../store/httpResponses').clientError;
-const { internalError } = require('../store/httpResponses').serverError;
+} = require('../store/httpMessages').clientError;
+const { internalError } = require('../store/httpMessages').serverError;
 
 const Auth = require('../model/Auth.model');
 const User = require('../model/User.model');
