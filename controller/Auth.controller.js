@@ -36,13 +36,15 @@ const AuthController = {
       }
 
       // Create the new DB entries and save them
+      const id = uuidv4();
       const auth = new Auth({
+        id,
         userName,
         password: hash,
       });
 
       const user = new User({
-        id: uuidv4(),
+        id,
         userName,
         password,
         userMail,
