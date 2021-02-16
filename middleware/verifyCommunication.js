@@ -1,4 +1,4 @@
-const { missingRequestBody } = require('../store/httpResponses').clientError;
+const { missingRequestBody } = require('../store/httpMessages').clientError;
 
 const noEmptyPayload = (req, res, next) => {
   if (
