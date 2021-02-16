@@ -3,7 +3,7 @@ components:
     AuthForm:
       type: object
       properties:
-        username:
+        userName:
           type: string
           description: The username of the user who is to be logged in
           example: "Jane Doe"
