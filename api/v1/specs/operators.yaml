@@ -21,8 +21,10 @@ tags:
   description: Secondary resource. An operator is a person to which one can delegate intray items instead of categorizing it as a next action item
 
 # Operator endpoint:
-api/v1/operator:
+/api/v1/operator:
   get:
+    security:
+      - bearerAuth: []
     summary: Returns all maintained operators. The q - parameter can be used to refine the search.
     operationId: handleGetOperators
     tags: [Operator]
@@ -31,7 +33,7 @@ api/v1/operator:
         name: q
         schema:
           type: string
-        description: Queries the database for operatorName which includes a substring of the query that's been passed
+        description: Queries the database for operatorName or operatorMail which includes a substring of the query that's been passed
     produces:
       - application/json
     responses:
@@ -54,6 +56,22 @@ api/v1/operator:
             operationId: handleCreateWaiting
             parameters:
               operatorId: "198d2178f23h"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -61,6 +79,8 @@ api/v1/operator:
             schema:
               $ref: "#/components/schemas/serverError"
   post:
+    security:
+      - bearerAuth: []
     summary: Create a new operator. An operator is somebody who does the 'waiting' - items.
     operationId: handleCreateOperator
     tags: [Operator]
@@ -89,7 +109,7 @@ api/v1/operator:
                 description: The email adress of the operator
                 example: "John@doe.com"
     responses:
-      200:
+      201:
         description: Returns an `object` representing the created operator
         content:
           application/json:
@@ -97,6 +117,28 @@ api/v1/operator:
               type: array
               items:
                 $ref: "#/components/schemas/Operator"
+      400:
+        description: This exception occurs if the login payload is missing
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingRequestBody"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -105,8 +147,10 @@ api/v1/operator:
               $ref: "#/components/schemas/serverError"
 
 # Operator endpoint:
-api/v1/operator/{operatorId}:
+/api/v1/operator/{operatorId}:
   put:
+    security:
+      - bearerAuth: []
     summary: Updates a single operator based on its ID.
     operationId: handleUpdateOperatorByOperatorId
     tags: [Operator]
@@ -139,15 +183,37 @@ api/v1/operator/{operatorId}:
                 example: "John@doe.com"
     responses:
       200:
-        description: Returns an `object` representing the updated operator
+        description: Returns an `object` showing the success message
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/Operator"
+                $ref: "#/components/schemas/updated"
+      400:
+        description: This exception occurs if the login payload is missing
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingRequestBody"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
       404:
-        description: Returns an `object` describing that the operator was not found
+        description: Returns an `object` describing that the list item was not found
         content:
           application/json:
             schema:
@@ -159,6 +225,8 @@ api/v1/operator/{operatorId}:
             schema:
               $ref: "#/components/schemas/serverError"
   delete:
+    security:
+      - bearerAuth: []
     summary: Deletes a single operator based on its ID.
     operationId: handleDeleteOperatorByOperatorId
     tags: [Operator]
@@ -170,10 +238,32 @@ api/v1/operator/{operatorId}:
         required: true
         description: Unique ID of the operator which should be deleted
     responses:
-      204:
-        description: Returns an empty `string` with status code 204 'no content'
+      200:
+        description: Returns an `object` showing the success message
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/deleted"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/notAuthorizedAction"
       404:
-        description: Returns an `object` describing that the operator was not found
+        description: Returns an `object` describing that the list item was not found
         content:
           application/json:
             schema:
