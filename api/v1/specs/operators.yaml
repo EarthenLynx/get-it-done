@@ -61,17 +61,13 @@ tags:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/missingAuthHeaders"
+              $ref: "#/components/schemas/missingAuthHeaders"
       403:
         description: This exception occurs in case the api token is malformed or expired
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/notAuthorizedAction"
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -128,17 +124,13 @@ tags:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/missingAuthHeaders"
+              $ref: "#/components/schemas/missingAuthHeaders"
       403:
         description: This exception occurs in case the api token is malformed or expired
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/notAuthorizedAction"
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -201,17 +193,13 @@ tags:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/missingAuthHeaders"
+              $ref: "#/components/schemas/missingAuthHeaders"
       403:
         description: This exception occurs in case the api token is malformed or expired
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/notAuthorizedAction"
+              $ref: "#/components/schemas/notAuthorizedAction"
       404:
         description: Returns an `object` describing that the list item was not found
         content:
@@ -251,17 +239,13 @@ tags:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/missingAuthHeaders"
+              $ref: "#/components/schemas/missingAuthHeaders"
       403:
         description: This exception occurs in case the api token is malformed or expired
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/notAuthorizedAction"
+              $ref: "#/components/schemas/notAuthorizedAction"
       404:
         description: Returns an `object` describing that the list item was not found
         content:

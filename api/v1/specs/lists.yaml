@@ -58,17 +58,13 @@ tags:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/missingAuthHeaders"
+              $ref: "#/components/schemas/missingAuthHeaders"
       403:
         description: This exception occurs in case the api token is malformed or expired
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/notAuthorizedAction"
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -113,17 +109,13 @@ tags:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/missingAuthHeaders"
+              $ref: "#/components/schemas/missingAuthHeaders"
       403:
         description: This exception occurs in case the api token is malformed or expired
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/notAuthorizedAction"
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -166,27 +158,29 @@ tags:
                 example: "All tasks that are related to household, as well as to other things at home, like buying groceries, walk the dog, feed the fish, ..."
     responses:
       200:
-        description: Returns an `object` representing the updated list item
+        description: Returns an `object` showing the success message
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/List"
+              $ref: "#/components/schemas/updated"
+      400:
+        description: This exception occurs if the login payload is missing
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingRequestBody"
       401:
         description: This exception occurs in case the api token is not sent appropriately
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/missingAuthHeaders"
+              $ref: "#/components/schemas/missingAuthHeaders"
       403:
         description: This exception occurs in case the api token is malformed or expired
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/notAuthorizedAction"
+              $ref: "#/components/schemas/notAuthorizedAction"
       404:
         description: Returns an `object` describing that the list item was not found
         content:
@@ -215,24 +209,25 @@ tags:
     produces:
       - application/json
     responses:
-      204:
-        description: Returns an empty `string` with status code 204 'no content'
+      200:
+        description: Returns an `object` showing the success message
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleted"
+
       401:
         description: This exception occurs in case the api token is not sent appropriately
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/missingAuthHeaders"
+              $ref: "#/components/schemas/missingAuthHeaders"
       403:
         description: This exception occurs in case the api token is malformed or expired
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/notAuthorizedAction"
+              $ref: "#/components/schemas/notAuthorizedAction"
       404:
         description: Returns an `object` describing that the list item was not found
         content:
