@@ -196,14 +196,13 @@ tags:
         required: true
         description: Unique ID of the user which should be deleted
     responses:
-      204:
-        description: Returns an empty `string` with status code 204 'no content'
-      404:
-        description: Returns an `object` describing that the user was not found
+      200:
+        description: Returns an `object` showing the success message
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NotFoundException"
+              $ref: "#/components/schemas/deleted"
+
       401:
         description: This exception occurs in case the api token is not sent appropriately
         content:
@@ -216,6 +215,12 @@ tags:
           application/json:
             schema:
               $ref: "#/components/schemas/notAuthorizedAction"
+      404:
+        description: Returns an `object` describing that the list item was not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotFoundException"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:

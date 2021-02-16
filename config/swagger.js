@@ -106,23 +106,23 @@ const swaggerSpecs = {
 		'./api/v1/specs/auth.yaml',
 
 		/* Primary resources */
-		'./api/v1/specs/intray.yaml',
-		'./api/v1/specs/information.yaml',
-		'./api/v1/specs/waiting.yaml',
-		'./api/v1/specs/calender.yaml',
-		'./api/v1/specs/action.yaml',
-		'./api/v1/specs/project.yaml',
+		// './api/v1/specs/intray.yaml',
+		// './api/v1/specs/information.yaml',
+		// './api/v1/specs/waiting.yaml',
+		// './api/v1/specs/calender.yaml',
+		// './api/v1/specs/action.yaml',
+		// './api/v1/specs/project.yaml',
 
 		/* Secondary resources */
 		'./api/v1/specs/lists.yaml',
 		'./api/v1/specs/operators.yaml',
 		'./api/v1/specs/users.yaml',
-		'./api/v1/specs/logs.yaml',
-		'./api/v1/specs/efforts.yaml',
-		'./api/v1/specs/clients.yaml',
+		// './api/v1/specs/logs.yaml',
+		// './api/v1/specs/efforts.yaml',
+		// './api/v1/specs/clients.yaml',
 
 		/* Exception resources */
-		'./api/v1/specs/exceptions.yaml',
+		'./api/v1/specs/messages.yaml',
 	],
 };
 

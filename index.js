@@ -16,10 +16,14 @@ const intrayRoute = require('./api/v1/routes/Intray.route');
 // Initialize the util routes
 const listRoute = require('./api/v1/routes/List.route');
 const operatorRoute = require('./api/v1/routes/Operator.route');
+const userRoute = require('./api/v1/routes/User.route');
 
 // Initialize app and configs
 const app = express();
-mongoose.connect(process.env.DB_HOST_ADMIN);
+mongoose.connect(process.env.DB_HOST_ADMIN, {
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+});
 
 // Initialize costum modules
 const { swaggerSpecs, swaggerOptions } = require('./config/swagger');
@@ -34,7 +38,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    'Authorization, Origin, X-Requested-With, Content-Type, Accept'
   );
   next();
 });
@@ -58,6 +62,7 @@ app.use('/api/v1/intray', intrayRoute);
 // Initialize the helper routes
 app.use('/api/v1/list', listRoute);
 app.use('/api/v1/operator', operatorRoute);
+app.use('/api/v1/user', userRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(
