@@ -10,7 +10,6 @@ const authorizeRole = (req, res, next, rolename) => {
   }
   const token = req.headers.authorization.split(' ')[1];
   jwt.verify(token, process.env.API_SECRET, {}, (err, session) => {
-    console.log(session);
     if (err || !session.roles.includes(rolename)) {
       return res.status(401).send(notAuthorizedResource);
     }
