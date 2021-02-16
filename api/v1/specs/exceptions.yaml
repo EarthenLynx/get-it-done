@@ -66,6 +66,18 @@ components:
           description: Includes a message for the user to see that no items were found
           example: User - password combination not found
 
+    itemNotFound:
+      properties:
+        status:
+          type: string
+          description: Describes the type of error that occured during execution
+          example: 'not-found'
+        message:
+          type: string
+          description: Includes a message for the user to see that no items were found
+          example: This item cannot be found
+
+
     serverError:
       properties:
         status:
