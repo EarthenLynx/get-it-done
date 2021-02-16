@@ -10,6 +10,16 @@ module.exports = {
       status: 'success',
       message: 'Item created',
     },
+
+    updated: {
+      status: 'success',
+      message: 'Item updated',
+    },
+
+    deleted: {
+      status: 'success',
+      message: 'Item deleted',
+    },
   },
 
   // HTTP 40X
@@ -48,7 +58,7 @@ module.exports = {
     itemNotFound: {
       status: 'not-found',
       message: 'This item cannot be found',
-    }
+    },
   },
 
   // HTTP 50X
