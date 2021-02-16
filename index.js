@@ -15,6 +15,7 @@ const intrayRoute = require('./api/v1/routes/Intray.route');
 
 // Initialize the util routes
 const listRoute = require('./api/v1/routes/List.route');
+const operatorRoute = require('./api/v1/routes/Operator.route');
 
 // Initialize app and configs
 const app = express();
@@ -56,6 +57,7 @@ app.use('/api/v1/intray', intrayRoute);
 
 // Initialize the helper routes
 app.use('/api/v1/list', listRoute);
+app.use('/api/v1/operator', operatorRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(
