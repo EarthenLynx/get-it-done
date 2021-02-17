@@ -119,7 +119,7 @@ const swaggerSpecs = {
 		'./api/v1/specs/users.yaml',
 		// './api/v1/specs/logs.yaml',
 		// './api/v1/specs/efforts.yaml',
-		// './api/v1/specs/clients.yaml',
+		'./api/v1/specs/clients.yaml',
 
 		/* Exception resources */
 		'./api/v1/specs/messages.yaml',

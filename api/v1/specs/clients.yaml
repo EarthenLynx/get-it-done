@@ -21,8 +21,10 @@ tags:
   description: Secondary resource. A client is an entity for which tasks are performed.
 
 # Client endpoint:
-api/v1/client:
+/api/v1/client:
   get:
+    security:
+      - bearerAuth: []
     summary: Returns all maintained clients. The q - parameter can be used to refine the search.
     operationId: handleGetClients
     tags: [Client]
@@ -50,6 +52,18 @@ api/v1/client:
             parameters:
               "...": "..."
               clientId: "198d2178f23h"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -57,6 +71,8 @@ api/v1/client:
             schema:
               $ref: "#/components/schemas/serverError"
   post:
+    security:
+      - bearerAuth: []
     summary: Create a new client. A client is an entity for which tasks are performed.
     operationId: handleCreateClient
     tags: [Client]
@@ -72,10 +88,6 @@ api/v1/client:
           schema:
             type: object
             properties:
-              clientId:
-                type: string
-                description: The auto-generated uuid of the client
-                example: "198d2178f23h"
               clientName:
                 type: string
                 description: The full name of the client
@@ -85,7 +97,7 @@ api/v1/client:
                 description: The email adress of the client
                 example: "John@doe.com"
     responses:
-      200:
+      201:
         description: Returns an `object` representing the created client
         content:
           application/json:
@@ -93,6 +105,24 @@ api/v1/client:
               type: array
               items:
                 $ref: "#/components/schemas/Client"
+      400:
+        description: This exception occurs if the login payload is missing
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingRequestBody"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notAuthorizedAction"
       500:
         description: Returns an `object` describing the unexpected server error that occured
         content:
@@ -101,8 +131,10 @@ api/v1/client:
               $ref: "#/components/schemas/serverError"
 
 # Client endpoint:
-api/v1/client/{clientId}:
+/api/v1/client/{clientId}:
   put:
+    security:
+      - bearerAuth: []
     summary: Updates a single client based on its ID.
     operationId: handleUpdateClientByClientId
     tags: [Client]
@@ -135,15 +167,33 @@ api/v1/client/{clientId}:
                 example: "John@doe.com"
     responses:
       200:
-        description: Returns an `object` representing the updated client
+        description: Returns an `object` showing the success message
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/Client"
+                $ref: "#/components/schemas/updated"
+      400:
+        description: This exception occurs if the login payload is missing
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingRequestBody"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notAuthorizedAction"
       404:
-        description: Returns an `object` describing that the client was not found
+        description: Returns an `object` describing that the list item was not found
         content:
           application/json:
             schema:
@@ -155,6 +205,8 @@ api/v1/client/{clientId}:
             schema:
               $ref: "#/components/schemas/serverError"
   delete:
+    security:
+      - bearerAuth: []
     summary: Deletes a single client based on its ID.
     operationId: handleDeleteClientByClientId
     tags: [Client]
@@ -166,10 +218,28 @@ api/v1/client/{clientId}:
         required: true
         description: Unique ID of the client which should be deleted
     responses:
-      204:
-        description: Returns an empty `string` with status code 204 'no content'
+      200:
+        description: Returns an `object` showing the success message
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/deleted"
+      401:
+        description: This exception occurs in case the api token is not sent appropriately
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/missingAuthHeaders"
+      403:
+        description: This exception occurs in case the api token is malformed or expired
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/notAuthorizedAction"
       404:
-        description: Returns an `object` describing that the client was not found
+        description: Returns an `object` describing that the list item was not found
         content:
           application/json:
             schema:
