@@ -4,6 +4,20 @@ const {
   notAuthorizedResource,
 } = require('../store/httpMessages').clientError;
 
+const authorizeThisUser = (req, res, next) => {
+  const { userId: userIdUrl } = req.params;
+  const { id: userIdSession } = req.session;
+
+  if (userIdSession.toString() !== userIdUrl.toString()) {
+    console.log(
+      `User ${userIdSession} tried to access data for user ${userIdUrl} on route ${req.originalUrl}`
+    );
+    return res.status(401).send(notAuthorizedResource);
+  } else {
+    next();
+  }
+};
+
 const authorizeRole = (req, res, next, rolename) => {
   if (!req.headers.authorization) {
     return res.status(401).send(missingAuthHeaders);
@@ -30,4 +44,4 @@ const verifyAdmin = (req, res, next) => {
   authorizeRole(req, res, next, 'admin');
 };
 
-module.exports = { verifyGuest, verifyUser, verifyAdmin };
+module.exports = { authorizeThisUser, verifyGuest, verifyUser, verifyAdmin };
