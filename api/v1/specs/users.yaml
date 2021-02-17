@@ -74,7 +74,7 @@ tags:
     security:
       - bearerAuth: []
     summary: Returns a single maintained user. Its parameters can then be used to do customization in the frontend. Authentication is still managed with json webtoken
-    operationId: handleGetUsers
+    operationId: handleGetUserByUserId
     tags: [User]
     parameters:
       - in: path
